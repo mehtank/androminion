@@ -1351,6 +1351,13 @@ public class Game {
             durationEffectsAreCards.add(true);
     		durationEffectsAreCards.add(false);
         }
+        for (Card card : player.delay) {
+            allDurationAreSimple = false;
+            durationEffects.add(Cards.delay);
+            durationEffects.add(card);
+            durationEffectsAreCards.add(false);
+            durationEffectsAreCards.add(false);
+        }
         for (Card card : player.reap) {
             allDurationAreSimple = false;
             durationEffects.add(Cards.reap);
@@ -1516,6 +1523,9 @@ public class Game {
                 card2.play(this, context, false, true, false);
             } else if(card.equals(Cards.summon)) {
                 player.summon.remove(card2);
+                card2.play(this, context, false);
+            } else if(card.equals(Cards.delay)) {
+                player.delay.remove(card2);
                 card2.play(this, context, false);
             } else if(card.equals(Cards.reap)) {
                 player.reap.remove(card2);

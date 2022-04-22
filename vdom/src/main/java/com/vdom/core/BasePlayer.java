@@ -5504,6 +5504,20 @@ public abstract class BasePlayer extends Player implements GameEventListener {
     public Card cardinal_cardToExile(MoveContext context, ArrayList<Card> cards) {
     	return this.lowestCards(context, cards, 1, false)[0];
     }
+
+    @Override
+    public Card delay_cardToSetAside(MoveContext context) {
+        ArrayList<Card> validCards = new ArrayList<Card>();
+        for (Card c : context.player.hand) {
+            if (c.is(Type.Action, context.player)) {
+                validCards.add(c);
+            }
+        }
+        for (Card c : validCards) {
+            return c;
+        }
+        return null;
+    }
     
     @Override
     public Card demand_cardToObtain(MoveContext context) {

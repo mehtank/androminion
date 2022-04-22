@@ -216,6 +216,7 @@ public class Util {
         		+ " NativeVillage:" + cardArrayToString(player.getNativeVillage())
             + " Island:" + cardArrayToString(player.getIsland()) + " Prince:" + cardArrayToString(player.getPrince()) 
             + " Summon:" + cardArrayToString(player.getSummon()) + " Inheritance:" + player.getInheritance()
+            + " Delay:" + cardArrayToString(player.getDelay())
             + " Reap:" + cardArrayToString(player.getReap()) + " Ghost:" + cardArrayToString(player.getGhost()));
         log("");
     }

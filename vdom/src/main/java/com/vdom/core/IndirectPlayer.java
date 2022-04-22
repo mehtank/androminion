@@ -4573,6 +4573,14 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
     public Card cardinal_cardToExile(MoveContext context, ArrayList<Card> cards) {
     	return cards.get(selectOption(context, Cards.cardinal, cards.toArray()));
     }
+
+    @Override
+    public Card delay_cardToSetAside(MoveContext context) {
+        SelectCardOptions sco = new SelectCardOptions().isAction()
+                .setPassable().setActionType(ActionType.SETASIDE)
+                .setCardResponsible(Cards.delay);
+        return getCardFromHand(context, sco);
+    }
     
     @Override
     public Card demand_cardToObtain(MoveContext context) {

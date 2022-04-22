@@ -165,6 +165,9 @@ public class CardImplMenagerie extends CardImpl {
         case Commerce:
         	commerce(context);
         	break;
+		case Delay:
+			delay(context);
+			break;
         case Demand:
         	demand(context);
         	break;
@@ -658,6 +661,30 @@ public class CardImplMenagerie extends CardImpl {
 		int numGolds = new HashSet<Card>(context.game.getCardsObtainedByPlayer()).size();
 		for (int i = 0; i < numGolds; ++i)
 			context.getPlayer().gainNewCard(Cards.gold, this, context);
+	}
+
+	private void delay(MoveContext context) {
+		Player player = context.getPlayer();
+		ArrayList<Card> validCards = new ArrayList<Card>();
+		for (Card c : player.hand) {
+			if (c.is(Type.Action, player)) {
+				validCards.add(c);
+			}
+		}
+		if (validCards.isEmpty()) return;
+		Card card = player.controlPlayer.delay_cardToSetAside(context);
+		if (card == null) return;
+		if (!validCards.contains(card)) {
+			Util.playerError(player, "Delay error, invalid card selected, ignoring");
+			return;
+		}
+		player.getHand().remove(player.getHand().indexOf(card));
+		player.getDelay().add(card);
+
+		GameEvent setAsideEvent = new GameEvent(GameEvent.EventType.CardSetAside, context);
+		setAsideEvent.card = card;
+		setAsideEvent.responsible = Cards.delay;
+		context.game.broadcastEvent(setAsideEvent);
 	}
 	
 	private void demand(MoveContext context) {

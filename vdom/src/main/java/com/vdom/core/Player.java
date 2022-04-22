@@ -79,6 +79,7 @@ public abstract class Player {
     protected int sinisterPlotTokens = 0;
     protected ArrayList<ArrayList<Card>> church;
     protected boolean boughtSeizeTheDay;
+    protected CardList delay;
     protected int wayOfTheSquirrelDraw;
     protected CardList reap;
     protected CardList wayOfTheTurtle;
@@ -410,6 +411,7 @@ public abstract class Player {
         boonsForCleanup = new CardList(this, "Boons");
         nextTurnBoons = new CardList(this, "Boons");
         states = new CardList(this, "States");
+        delay = new CardList(this, "Delay");
         reap = new CardList(this, "Reap");
         wayOfTheTurtle = new CardList(this, "Way of the Turtle");
         projectsBought = new CardList(this, "Projects");
@@ -857,6 +859,10 @@ public abstract class Player {
     public CardList getPlayedByPrince() {
         return playedByPrince;
     }
+
+    public CardList getDelay() {
+        return delay;
+    }
     
     public CardList getReap() {
         return reap;
@@ -1092,6 +1098,9 @@ public abstract class Player {
         }
         for (ArrayList<Card> curChurch : church) {
         	allCards.addAll(curChurch);
+        }
+        for (Card card : delay) {
+            allCards.add(card);
         }
         for (Card card : reap) {
             allCards.add(card);
@@ -2932,6 +2941,7 @@ public abstract class Player {
 
     public abstract Card[] banish_cardsToExile(MoveContext context);
     public abstract Card demand_cardToObtain(MoveContext context);
+    public abstract Card delay_cardToSetAside(MoveContext context);
     public abstract boolean desperation_shouldGainCurse(MoveContext context);
     public abstract Card invest_cardToExile(MoveContext context);
     public abstract Card march_actionToPlay(MoveContext context);

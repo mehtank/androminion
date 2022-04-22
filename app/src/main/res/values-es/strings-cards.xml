@@ -1128,7 +1128,7 @@
     <string name="Commerce_name">Comercio</string>
     <string name="Commerce_desc">Gana una carta de Oro por cada carta con nombre distinto que has ganado en este turno.</string>
     <string name="Delay_name">Demorar</string>
-    <string name="Delay_desc"></string>
+    <string name="Delay_desc">Puedes apartar una carta de Acción de tu mano. Al comienzo de tu próximo turno, juégala.</string>
     <string name="Demand_name">Exigir</string>
     <string name="Demand_desc"></string>
     <string name="Desperation_name">Desesperación</string>
@@ -1216,7 +1216,7 @@
     <string name="WayOfTheRat_desc">Puedes descartar una carta de Tesoro para ganar una copia de esta carta.</string>
     <string name="WayOfTheRat_shortDesc">Descartar Tesoro para copia</string>
     <string name="WayOfTheSeal_name">Camino de la Foca</string>
-    <string name="WayOfThe_shortName">Foca</string>
+    <string name="WayOfTheSeal_shortName">Foca</string>
     <string name="WayOfTheSeal_desc">En este turno, cuando ganes una carta, puedes ponerla encima de tu mazo.</string>
     <string name="WayOfTheSeal_shortDesc">+$1, puedes poner las ganadas al mazo</string>
     <string name="WayOfTheSheep_name">Camino de la Oveja</string>

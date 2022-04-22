@@ -784,7 +784,8 @@ public class Strings {
                                 + " (" + cardsString + ")";
                     } else if (((Card)options[i]).equals(Cards.prince)
                     		|| ((Card)options[i]).equals(Cards.summon)
-                    		|| ((Card)options[i]).equals(Cards.ghost)) {
+                    		|| ((Card)options[i]).equals(Cards.ghost)
+                            || ((Card)options[i]).equals(Cards.delay)) {
                         strings2[(i - startIndex)/2] = getCardName((Card)options[i+1]) 
                             + " (" + getCardName(((Card) options[i])) + ")";
                     } else if (((Card)options[i]).equals(Cards.horseTraders)) {
@@ -2217,6 +2218,7 @@ public class Strings {
             getCardName(Cards.bargain),
             getCardName(Cards.bountyHunter),
             getCardName(Cards.camelTrain),
+            getCardName(Cards.delay),
             getCardName(Cards.demand),
             getCardName(Cards.displace),
             getCardName(Cards.enhance),
