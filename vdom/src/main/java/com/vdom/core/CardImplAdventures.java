@@ -21,11 +21,11 @@ public class CardImplAdventures extends CardImpl {
 	}
 
 	@Override
-	public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-		super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
+	public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
+		super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect, playContext);
 		switch (getKind()) {
 		case Amulet:
-			amulet(game, context, currentPlayer, isThronedEffect);
+			amulet(game, context, currentPlayer, isThronedEffect, playContext);
 			break;
 		case Artificer:
 			artificer(game, context, currentPlayer);
@@ -64,7 +64,7 @@ public class CardImplAdventures extends CardImpl {
 			gear(context, currentPlayer, isThronedEffect);
 			break;
 		case Giant:
-			giant(game, context, currentPlayer);
+			giant(game, context, currentPlayer, playContext);
 			break;
 		case HauntedWoods:
 			durationAttack(game, context, currentPlayer);
@@ -82,10 +82,10 @@ public class CardImplAdventures extends CardImpl {
 			messenger(game, context, currentPlayer);
 			break;
 		case Miser:
-			miser(game, context, currentPlayer);
+			miser(game, context, currentPlayer, playContext);
 			break;
 		case Ranger:
-			ranger(game, context, currentPlayer);
+			ranger(game, context, currentPlayer, playContext);
 			break;
 		case Raze:
 			raze(game, context, currentPlayer);
@@ -94,7 +94,7 @@ public class CardImplAdventures extends CardImpl {
 			relic(context, currentPlayer, game);
 			break;
 		case Soldier:
-			soldier(game, context, currentPlayer);
+			soldier(game, context, currentPlayer, playContext);
 			break;
 		case Storyteller:
 			storyteller(game, context, currentPlayer);
@@ -288,12 +288,12 @@ public class CardImplAdventures extends CardImpl {
 		finishCall(context);
 	}
 
-	private void amulet(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect) {
+	private void amulet(Game game, MoveContext context, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
 		currentPlayer.addStartTurnDurationEffect(this, 1, isThronedEffect);
-		amuletEffect(game, context, currentPlayer);
+		amuletEffect(game, context, currentPlayer, playContext);
 	}
 
-	public void amuletEffect(Game game, MoveContext context, Player currentPlayer) {
+	public void amuletEffect(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
 		Player.AmuletOption option = currentPlayer.controlPlayer.amulet_chooseOption(context);
 
 		if (option == null) {
@@ -301,7 +301,7 @@ public class CardImplAdventures extends CardImpl {
 			option = AmuletOption.AddGold;
 		}
 		if (option == Player.AmuletOption.AddGold) {
-			context.addCoins(1);
+			context.addCoins(1, this, playContext);
 		} else if (option == Player.AmuletOption.GainSilver) {
 			currentPlayer.gainNewCard(Cards.silver, this, context);
 		} else if (option == Player.AmuletOption.TrashCard) {
@@ -414,7 +414,7 @@ public class CardImplAdventures extends CardImpl {
 		}
 	}
 
-	private void giant(Game game, MoveContext context, Player currentPlayer) {
+	private void giant(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
 		ArrayList<Player> playersToAttack = new ArrayList<Player>();
 		for (Player targetPlayer : game.getPlayersInTurnOrder()) {
 			if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
@@ -422,7 +422,7 @@ public class CardImplAdventures extends CardImpl {
 			}
 		}
 		if (currentPlayer.flipJourneyToken(context)) {
-			context.addCoins(5);
+			context.addCoins(5, this, playContext);
 
 			for (Player targetPlayer : playersToAttack) {
 				targetPlayer.attacked(this, context);
@@ -454,7 +454,7 @@ public class CardImplAdventures extends CardImpl {
 			}
 		}
 		for (int i = 0; i < 5; ++i) {
-			game.drawToHand(context, this, 5 - i);
+			game.drawToHand(context, this, 5 - i, new PlayContext());
 		}
 
 	}
@@ -508,10 +508,10 @@ public class CardImplAdventures extends CardImpl {
 		}
 	}
 
-	private void miser(Game game, MoveContext context, Player currentPlayer) {
+	private void miser(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
 		boolean takeTreasure = currentPlayer.controlPlayer.miser_shouldTakeTreasure(context);
 		if (takeTreasure) {
-			context.addCoins(currentPlayer.getMiserTreasure());
+			context.addCoins(currentPlayer.getMiserTreasure(), this, playContext);
 		} else {
 			for (int i = 0; i < currentPlayer.hand.size(); i++) {
 				Card card = currentPlayer.hand.get(i);
@@ -527,10 +527,10 @@ public class CardImplAdventures extends CardImpl {
 		}
 	}
 
-	private void ranger(Game game, MoveContext context, Player currentPlayer) {
+	private void ranger(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
 		if (currentPlayer.flipJourneyToken(context)) {
 			for (int i = 0; i < 5; i++) {
-				context.game.drawToHand(context, this, 5 - i);
+				context.game.drawToHand(context, this, 5 - i, playContext);
 			}
 		}
 	}
@@ -619,8 +619,8 @@ public class CardImplAdventures extends CardImpl {
 		}
 	}
 
-	private void soldier(Game game, MoveContext context, Player currentPlayer) {
-		context.addCoins(context.countAttackCardsInPlay() - 1); // without this
+	private void soldier(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
+		context.addCoins(context.countAttackCardsInPlay() - 1, this, playContext); // without this
 																// soldier
 		for (Player player : context.game.getPlayersInTurnOrder()) {
 			if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
@@ -654,7 +654,8 @@ public class CardImplAdventures extends CardImpl {
 		context.spendCoins(coins);
 
 		for (int i = 0; i < coins; i++) {
-			game.drawToHand(context, this, coins - i);
+			// Uses "draw" instead of "+Card"
+			game.drawToHand(context, this, coins - i, new PlayContext());
 		}
 	}
 

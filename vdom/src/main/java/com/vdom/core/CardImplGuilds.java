@@ -17,8 +17,8 @@ public class CardImplGuilds extends CardImpl {
 	protected CardImplGuilds() { }
 
 	@Override
-    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
+        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect, playContext);
 		switch (getKind()) {
 		case Advisor:
             advisor(game, context, currentPlayer);
@@ -334,7 +334,8 @@ public class CardImplGuilds extends CardImpl {
                 Card curseGained = player.gainNewCard(Cards.curse, this, playerContext);
 
                 if (Cards.curse.equals(curseGained)) {
-                    game.drawToHand(playerContext, this, 1);
+                    // Uses "draw" instead of "+Card"
+                    game.drawToHand(playerContext, this, 1, new PlayContext());
                 }
             }
         }

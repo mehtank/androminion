@@ -21,8 +21,8 @@ public class CardImplNocturne extends CardImpl {
 
 	protected CardImplNocturne() { }
 
-	public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-		super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
+	public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
+		super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect, playContext);
 		switch(getKind()) {
 		case BadOmens:
 			badOmens(game, context, currentPlayer);
@@ -130,7 +130,7 @@ public class CardImplNocturne extends CardImpl {
 			plague(game, context, currentPlayer);
 			break;
 		case Pooka:
-			pooka(game, context, currentPlayer);
+			pooka(game, context, currentPlayer, playContext);
 			break;
 		case Poverty:
 			poverty(game, context, currentPlayer);
@@ -142,7 +142,7 @@ public class CardImplNocturne extends CardImpl {
 			secretCave(game, context, currentPlayer, isThronedEffect);
 			break;
 		case Shepherd:
-			shepherd(game, context, currentPlayer);
+			shepherd(game, context, currentPlayer, playContext);
 			break;
 		case Raider:
 			raider(game, context, currentPlayer);
@@ -193,7 +193,7 @@ public class CardImplNocturne extends CardImpl {
 			war(game, context, currentPlayer);
 			break;
 		case Werewolf:
-			werewolf(game, context, currentPlayer);
+			werewolf(game, context, currentPlayer, playContext);
 			break;
 		case Wish:
 			wish(game, context, currentPlayer);
@@ -202,7 +202,7 @@ public class CardImplNocturne extends CardImpl {
 			willOWisp(game, context, currentPlayer);
 			break;
 		case ZombieApprentice:
-			zombieApprentice(game, context, currentPlayer);
+			zombieApprentice(game, context, currentPlayer, playContext);
 			break;
 		case ZombieMason:
 			zombieMason(game, context, currentPlayer);
@@ -398,11 +398,12 @@ public class CardImplNocturne extends CardImpl {
 	
 	private void cursedVillage(Game game, MoveContext context, Player player) {
 		int cardsToDraw = 6 - player.hand.size();
+		PlayContext drawContext = new PlayContext();
     	if (cardsToDraw > 0 && player.getMinusOneCardToken()) {
-        	game.drawToHand(context, Cards.cursedVillage, -1);
+        	game.drawToHand(context, Cards.cursedVillage, -1, drawContext);
         }
     	for (int i = 0; i < cardsToDraw; ++i) {
-    		if(!game.drawToHand(context, Cards.cursedVillage, cardsToDraw - i))
+    		if(!game.drawToHand(context, Cards.cursedVillage, cardsToDraw - i, drawContext))
                 break;
     	}
 	}
@@ -941,7 +942,7 @@ public class CardImplNocturne extends CardImpl {
 		player.gainNewCard(Cards.curse, this, context);
 	}
 	
-	private void pooka(Game game, MoveContext context, Player player) {
+	private void pooka(Game game, MoveContext context, Player player, PlayContext playContext) {
 		if(player.hand.size() > 0) {
             boolean hasValidTreasure = false;
             for (Card c : player.hand) {
@@ -961,7 +962,7 @@ public class CardImplNocturne extends CardImpl {
 
                 player.trashFromHand(card, this, context);
                 for (int i = 0; i < 4; ++i) {
-                	game.drawToHand(context, Cards.pooka, 4 - i);
+                	game.drawToHand(context, Cards.pooka, 4 - i, playContext);
                 }
             }
         }
@@ -1013,7 +1014,7 @@ public class CardImplNocturne extends CardImpl {
         }
 	}
 		
-	private void shepherd(Game game, MoveContext context, Player currentPlayer) {
+	private void shepherd(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
 		int numVictories = 0;
 		for (Card c : currentPlayer.getHand()) {
 			if (c.is(Type.Victory, currentPlayer))
@@ -1051,7 +1052,7 @@ public class CardImplNocturne extends CardImpl {
             
             int numToDraw = 2 * numberOfCards;
             for (int i = 0; i < numToDraw; ++i) {
-            	game.drawToHand(context, Cards.shepherd, numToDraw - i);
+            	game.drawToHand(context, Cards.shepherd, numToDraw - i, playContext);
             }
         }
     }
@@ -1376,7 +1377,7 @@ public class CardImplNocturne extends CardImpl {
 		return (cost == 3 || cost == 4) && debtCost == 0 && !costPotion;
 	}
 	
-	private void werewolf(Game game, MoveContext context, Player currentPlayer) {
+	private void werewolf(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
 		ArrayList<Player> attackedPlayers = new ArrayList<Player>();
     	for (Player player : context.game.getPlayersInTurnOrder()) {
             if (player != currentPlayer && !Util.isDefendedFromAttack(context.game, player, this)) {
@@ -1387,7 +1388,7 @@ public class CardImplNocturne extends CardImpl {
 			game.othersReceiveNextHex(context, attackedPlayers, this);
 		} else {
 			for (int i = 0; i < 3; ++i) {
-            	game.drawToHand(context, Cards.werewolf, 3 - i);
+            	game.drawToHand(context, Cards.werewolf, 3 - i, playContext);
             }
 		}
 	}
@@ -1420,7 +1421,7 @@ public class CardImplNocturne extends CardImpl {
         }
 	}
 	
-	private void zombieApprentice(Game game, MoveContext context, Player player) {
+	private void zombieApprentice(Game game, MoveContext context, Player player, PlayContext playContext) {
 		if (player.getHand().size() == 0)
 			return;
 		ArrayList<Card> validActions = new ArrayList<Card>();
@@ -1439,7 +1440,7 @@ public class CardImplNocturne extends CardImpl {
 		player.trashFromHand(cardToTrash, this, context);
 		
 		for (int i = 0; i < 3; ++i) {
-        	game.drawToHand(context, this, 3 - i);
+        	game.drawToHand(context, this, 3 - i, playContext);
         }
 		
 		context.addActions(1, this);

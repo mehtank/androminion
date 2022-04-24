@@ -25,8 +25,8 @@ public class CardImplEmpires extends CardImpl {
 	}
 
 	@Override
-	public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-		super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
+	public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
+		super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect, playContext);
 		switch (getKind()) {
 		case Archive:
 			archive(game, context, currentPlayer, isThronedEffect);
@@ -38,13 +38,13 @@ public class CardImplEmpires extends CardImpl {
 			catapult(game, context, currentPlayer);
 			break;
 		case ChariotRace:
-			chariotRace(game, context, currentPlayer);
+			chariotRace(game, context, currentPlayer, playContext);
 			break;
 		case Charm:
 			charm(game, context, currentPlayer);
 			break;
 		case CityQuarter:
-			cityQuarter(game, context, currentPlayer);
+			cityQuarter(game, context, currentPlayer, playContext);
 			break;
 		case Crown:
 			crown(game, context, currentPlayer);
@@ -59,7 +59,7 @@ public class CardImplEmpires extends CardImpl {
 			engineer(game, context, currentPlayer);
 			break;
 		case FarmersMarket:
-			farmersMarket(game, context, currentPlayer);
+			farmersMarket(game, context, currentPlayer, playContext);
 			break;
 		case Fortune:
 			fortune(context, currentPlayer, game);
@@ -68,13 +68,13 @@ public class CardImplEmpires extends CardImpl {
 			discardMultiple(context, currentPlayer, 2);
 			break;
 		case Gladiator:
-			gladiator(game, context, currentPlayer);
+			gladiator(game, context, currentPlayer, playContext);
 			break;
 		case Legionary:
 			legionary(game, context, currentPlayer);
 			break;
 		case OpulentCastle:
-			opulentCastle(game, context, currentPlayer);
+			opulentCastle(game, context, currentPlayer, playContext);
 			break;
 		case Overlord:
 			overlord(game, context, currentPlayer);
@@ -86,7 +86,7 @@ public class CardImplEmpires extends CardImpl {
 			royalBlacksmith(game, context, currentPlayer);
 			break;
 		case Sacrifice:
-			sacrifice(game, context, currentPlayer);
+			sacrifice(game, context, currentPlayer, playContext);
 			break;
 		case Settlers:
 			settlers(game, context, currentPlayer);
@@ -98,7 +98,7 @@ public class CardImplEmpires extends CardImpl {
 			temple(game, context, currentPlayer);
 			break;
 		case WildHunt:
-			wildHunt(game, context, currentPlayer);
+			wildHunt(game, context, currentPlayer, playContext);
 			break;
 		default:
 			break;
@@ -288,7 +288,7 @@ public class CardImplEmpires extends CardImpl {
 		}
 	}
 
-	private void chariotRace(Game game, MoveContext context, Player currentPlayer) {
+	private void chariotRace(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
 		Card draw = game.draw(context, Cards.chariotRace, 1);
 		if (draw != null) {
 			currentPlayer.reveal(draw, Cards.chariotRace, context);
@@ -309,7 +309,7 @@ public class CardImplEmpires extends CardImpl {
 			int drawPotionCost = draw.costPotion() ? 1 : 0;
 			int nextPlayerPotionCost = nextPlayerCard.costPotion() ? 1 : 0;
 			if ((drawCoinCost > nextPlayerCoinCost || drawDebtCost > nextPlayerDebtCost || drawPotionCost > nextPlayerPotionCost) && (drawCoinCost >= nextPlayerCoinCost || drawDebtCost >= nextPlayerDebtCost || drawPotionCost >= nextPlayerPotionCost)) {
-				context.addCoins(1);
+				context.addCoins(1, this, playContext);
 				currentPlayer.addVictoryTokens(context, 1, this);
 			}
 		}
@@ -324,7 +324,7 @@ public class CardImplEmpires extends CardImpl {
 		}
 	}
 
-	private void cityQuarter(Game game, MoveContext context, Player currentPlayer) {
+	private void cityQuarter(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
 		int actionCards = 0;
 
 		for (int i = 0; i < currentPlayer.hand.size(); i++) {
@@ -335,7 +335,7 @@ public class CardImplEmpires extends CardImpl {
 			}
 		}
 		for (int i = 0; i < actionCards; ++i) {
-			game.drawToHand(context, this, actionCards - i);
+			game.drawToHand(context, this, actionCards - i, playContext);
 		}
 	}
 
@@ -398,7 +398,7 @@ public class CardImplEmpires extends CardImpl {
 		}
 	}
 
-	private void farmersMarket(Game game, MoveContext context, Player currentPlayer) {
+	private void farmersMarket(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
 		Card c = Cards.farmersMarket;
 		if (game.getPileVpTokens(c) >= 4) {
 			int numTokens = game.getPileVpTokens(c);
@@ -407,7 +407,7 @@ public class CardImplEmpires extends CardImpl {
 			currentPlayer.trashSelfFromPlay(this, context);
 		} else {
 			game.addPileVpTokens(c, 1, context);
-			context.addCoins(game.getPileVpTokens(c));
+			context.addCoins(game.getPileVpTokens(c), this, playContext);
 		}
 	}
 
@@ -419,7 +419,7 @@ public class CardImplEmpires extends CardImpl {
 		}
 	}
 
-	private void gladiator(Game game, MoveContext context, Player currentPlayer) {
+	private void gladiator(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
 		boolean revealedCopy = false;
 		if (currentPlayer.hand.size() > 0) {
 			Card card = currentPlayer.controlPlayer.gladiator_revealedCard(context);
@@ -438,7 +438,7 @@ public class CardImplEmpires extends CardImpl {
 			}
 		}
 		if (!revealedCopy) {
-			context.addCoins(1);
+			context.addCoins(1, this, playContext);
 			currentPlayer.trashFromSupply(Cards.gladiator, this, context);
 		}
 	}
@@ -462,13 +462,14 @@ public class CardImplEmpires extends CardImpl {
 				if (player.hand.size() > keepCardCount) {
 					Card[] cardsToKeep = player.controlPlayer.legionary_attack_cardsToKeep(playerContext);
 					player.discardRemainingCardsFromHand(playerContext, cardsToKeep, this, keepCardCount);
-					game.drawToHand(playerContext, this, 1);
+					// Uses "draw" instead of "+Card"
+					game.drawToHand(playerContext, this, 1, new PlayContext());
 				}
 			}
 		}
 	}
 
-	private void opulentCastle(Game game, MoveContext context, Player currentPlayer) {
+	private void opulentCastle(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
 		int numVictories = 0;
 		for (Card c : currentPlayer.getHand()) {
 			if (c.is(Type.Victory, currentPlayer))
@@ -501,7 +502,7 @@ public class CardImplEmpires extends CardImpl {
 				Util.playerError(currentPlayer, "Opulent Castle discard error, trying to discard cards not in hand, ignoring extra.");
 			}
 
-			context.addCoins(2 * numberOfCards);
+			context.addCoins(2 * numberOfCards, this, playContext);
 		}
 	}
 
@@ -552,7 +553,7 @@ public class CardImplEmpires extends CardImpl {
 		}
 	}
 
-	private void sacrifice(Game game, MoveContext context, Player currentPlayer) {
+	private void sacrifice(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
 		if (currentPlayer.getHand().size() == 0)
 			return;
 		Card cardToTrash = currentPlayer.controlPlayer.sacrifice_cardToTrash(context);
@@ -567,12 +568,12 @@ public class CardImplEmpires extends CardImpl {
 		boolean isVictory = cardToTrash.is(Type.Victory);
 
 		if (isAction) {
-			game.drawToHand(context, this, 2);
-			game.drawToHand(context, this, 1);
+			game.drawToHand(context, this, 2, playContext);
+			game.drawToHand(context, this, 1, playContext);
 			context.addActions(2, this);
 		}
 		if (isTreasure) {
-			context.addCoins(2);
+			context.addCoins(2, this, playContext);
 		}
 		if (isVictory) {
 			currentPlayer.addVictoryTokens(context, 2, this);
@@ -673,11 +674,11 @@ public class CardImplEmpires extends CardImpl {
 		game.addPileVpTokens(Cards.temple, 1, context);
 	}
 
-	private void wildHunt(Game game, MoveContext context, Player currentPlayer) {
+	private void wildHunt(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
 		if (currentPlayer.controlPlayer.wildHunt_chooseOption(context) == WildHuntOption.Draw3AndPlaceToken) {
-			context.game.drawToHand(context, this, 3);
-			context.game.drawToHand(context, this, 2);
-			context.game.drawToHand(context, this, 1);
+			context.game.drawToHand(context, this, 3, playContext);
+			context.game.drawToHand(context, this, 2, playContext);
+			context.game.drawToHand(context, this, 1, playContext);
 			context.game.addPileVpTokens(Cards.wildHunt, 1, context);
 		} else {
 			if (Cards.estate.equals(currentPlayer.gainNewCard(Cards.estate, this, context))) {

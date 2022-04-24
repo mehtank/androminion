@@ -8,6 +8,7 @@ import com.vdom.core.Game;
 import com.vdom.core.Cards.Kind;
 import com.vdom.core.MoveContext;
 import com.vdom.core.PileCreator;
+import com.vdom.core.PlayContext;
 import com.vdom.core.Player;
 import com.vdom.core.Type;
 
@@ -106,8 +107,7 @@ public interface Card extends Serializable {
 
     public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect);
 
-    // May want to refactor this later if needed to a instruction context if grows beyond Chameleon
-    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, boolean usingChameleon);
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext);
         
     public Integer getId();
     

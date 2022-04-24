@@ -20,7 +20,8 @@ public class MoveContext {
     public int potions;
     public int actionsPlayedSoFar = 0;
     public ArrayList<Card> actionsPlayedThisTurnStillInPlay = new ArrayList<Card>();
-    public int merchantsPlayed = 0;
+    public int merchantsPlayedCoins = 0;
+    public int merchantsPlayedCards = 0;
     public int silversPlayed = 0;
     public int coppersmithsPlayed = 0;
     public int schemesPlayed = 0;
@@ -385,12 +386,18 @@ public class MoveContext {
     }
     
     public void addCoins(int coinsToAdd) {
-    	addCoins(coinsToAdd, null);
+    	addCoins(coinsToAdd, null, new PlayContext());
     }
     
-    public void addCoins(int coinsToAdd, Card responsible) {
-    	if (coinsToAdd == 0)
-    		return;
+    public void addCoins(int coinsToAdd, Card responsible, PlayContext playContext) {
+        if (coinsToAdd == 0)
+            return;
+        if (coinsToAdd > 0 && playContext.chameleonEffect) {
+            for (int i = 0; i < coinsToAdd; ++i) {
+                game.drawToHand(this, responsible, coinsToAdd - i, new PlayContext());
+            }
+            return;
+        }
     	if (coinsToAdd > 0) {
     		if (getPlayer().getMinusOneCoinToken()) {
     			--coinsToAdd;

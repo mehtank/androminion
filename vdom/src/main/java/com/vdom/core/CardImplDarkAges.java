@@ -20,8 +20,8 @@ public class CardImplDarkAges extends CardImpl {
 	protected CardImplDarkAges() { }
 
 	@Override
-    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
+        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect, playContext);
 		switch(getKind()) {
 		case Altar:
             altar(currentPlayer, context);
@@ -39,10 +39,10 @@ public class CardImplDarkAges extends CardImpl {
             beggar(currentPlayer, context);
             break;
         case Catacombs:
-            catacombs(game, currentPlayer, context);
+            catacombs(game, currentPlayer, context, playContext);
             break;
         case Count:
-            count(currentPlayer, context);
+            count(currentPlayer, context, playContext);
             break;
         case Counterfeit:
         	multiPlayTreasure(context, game, currentPlayer);
@@ -64,10 +64,10 @@ public class CardImplDarkAges extends CardImpl {
         	knight(context, currentPlayer);
         	break;
         case DeathCart:
-            deathCart(currentPlayer, context);
+            deathCart(currentPlayer, context, playContext);
             break;
         case Forager:
-            forager(game, currentPlayer, context);
+            forager(game, currentPlayer, context, playContext);
             break;
         case Graverobber:
             graverobber(game, currentPlayer, context);
@@ -76,19 +76,19 @@ public class CardImplDarkAges extends CardImpl {
             hermit(context, game, currentPlayer);
             break;
         case Ironmonger:
-            ironmonger(game, currentPlayer, context);
+            ironmonger(game, currentPlayer, context, playContext);
             break;
         case JunkDealer:
             junkDealer(currentPlayer, context);
             break;
         case Madman:
-            madman(context, game, currentPlayer);
+            madman(context, game, currentPlayer, playContext);
             break;
         case Marauder:
             marauder(context, game, currentPlayer);
             break;
         case Mercenary:
-            mercenary(context, game, currentPlayer);
+            mercenary(context, game, currentPlayer, playContext);
             break;
         case Mystic:
             mystic(game, context, currentPlayer);
@@ -135,7 +135,7 @@ public class CardImplDarkAges extends CardImpl {
             squire(context, currentPlayer);
             break;            
         case Storeroom:
-            storeroom(game, context, currentPlayer);
+            storeroom(game, context, currentPlayer, playContext);
             break;
         case Survivors:
             survivors(context, game, currentPlayer);
@@ -160,7 +160,7 @@ public class CardImplDarkAges extends CardImpl {
 		Cards.Kind trashKind = this.getKind();
     	switch (trashKind) {
         case Rats:
-            context.game.drawToHand(context, this, 1, true);
+            context.game.drawToHand(context, this, 1, true, new PlayContext());
             break;
         case Squire:
             boolean attackCardAvailable = false;
@@ -234,15 +234,16 @@ public class CardImplDarkAges extends CardImpl {
             context.player.hand.add(this);
             break;
         case Cultist:
-            context.game.drawToHand(context, this, 3, false);
-            context.game.drawToHand(context, this, 2, false);
-            context.game.drawToHand(context, this, 1, false);
+            PlayContext playContext = new PlayContext();
+            context.game.drawToHand(context, this, 3, false, playContext);
+            context.game.drawToHand(context, this, 2, false, playContext);
+            context.game.drawToHand(context, this, 1, false, playContext);
             break;
         case SirVander:
             context.player.controlPlayer.gainNewCard(Cards.gold, this, context);
             break;
         case OvergrownEstate:
-            context.game.drawToHand(context, this, 1);
+            context.game.drawToHand(context, this, 1, new PlayContext());
             break;
         case Feodum:
             context.player.controlPlayer.gainNewCard(Cards.silver, this, context);
@@ -317,7 +318,7 @@ public class CardImplDarkAges extends CardImpl {
         currentPlayer.gainNewCard(Cards.copper, this, context);
     }
 
-    public void catacombs(Game game, Player currentPlayer, MoveContext context) {
+    public void catacombs(Game game, Player currentPlayer, MoveContext context, PlayContext playContext) {
         ArrayList<Card> topOfTheDeck = new ArrayList<Card>();
         for (int i = 0; i < 3; i++) {
             Card card = game.draw(context, Cards.catacombs, 3 - i);
@@ -331,9 +332,9 @@ public class CardImplDarkAges extends CardImpl {
                 while (!topOfTheDeck.isEmpty()) {
                     currentPlayer.discard(topOfTheDeck.remove(0), this, context);
                 }
-                game.drawToHand(context, this, 3);
-                game.drawToHand(context, this, 2);
-                game.drawToHand(context, this, 1);
+                game.drawToHand(context, this, 3, playContext);
+                game.drawToHand(context, this, 2, playContext);
+                game.drawToHand(context, this, 1, playContext);
             } else {
                 // Put the cards in hand
                 for (Card c : topOfTheDeck) {
@@ -343,7 +344,7 @@ public class CardImplDarkAges extends CardImpl {
         }
     }
     
-    private void count(Player currentPlayer, MoveContext context) {
+    private void count(Player currentPlayer, MoveContext context, PlayContext playContext) {
         Player.CountFirstOption option1 = currentPlayer.controlPlayer.count_chooseFirstOption(context);
         if (option1 == null) {
             Util.playerError(currentPlayer, "Count first option error, ignoring.");
@@ -411,7 +412,7 @@ public class CardImplDarkAges extends CardImpl {
         } else {
             switch (option2) {
                 case Coins:
-                    context.addCoins(3);
+                    context.addCoins(3, this, playContext);
                     break;
                 case TrashHand:
                     if (currentPlayer.hand.size() > 0) {
@@ -482,22 +483,22 @@ public class CardImplDarkAges extends CardImpl {
         knight(context, currentPlayer);
     }
     
-    private void deathCart(Player currentPlayer, MoveContext context)
+    private void deathCart(Player currentPlayer, MoveContext context, PlayContext playContext)
     {
         Card actionCardToTrash = currentPlayer.controlPlayer.deathCart_actionToTrash(context);
         if (actionCardToTrash != null)
         {
             if (currentPlayer.trashFromHand(actionCardToTrash, this, context)) {
-            	context.addCoins(5, this);
+            	context.addCoins(5, this, playContext);
             }
         } else {
         	if (currentPlayer.trashSelfFromPlay(this, context)) {
-        		context.addCoins(5, this);
+        		context.addCoins(5, this, playContext);
         	}
         }
     }
 
-    private void forager(Game game, Player currentPlayer, MoveContext context) {
+    private void forager(Game game, Player currentPlayer, MoveContext context, PlayContext playContext) {
         if (currentPlayer.getHand().size() > 0) {
             Card card = currentPlayer.controlPlayer.forager_cardToTrash(context);
 
@@ -519,7 +520,7 @@ public class CardImplDarkAges extends CardImpl {
                 cardNames.add(card.getName());
             }
         }
-        context.addCoins(cardNames.size());
+        context.addCoins(cardNames.size(), this, playContext);
     }
 
     private void graverobber(Game game, Player currentPlayer, MoveContext context) {
@@ -620,7 +621,7 @@ public class CardImplDarkAges extends CardImpl {
         }
     }
     
-    private void ironmonger(Game game, Player currentPlayer, MoveContext context) {
+    private void ironmonger(Game game, Player currentPlayer, MoveContext context, PlayContext playContext) {
         Card card = game.draw(context, Cards.ironmonger, 1);
         
         if (card != null) {
@@ -635,10 +636,10 @@ public class CardImplDarkAges extends CardImpl {
                 context.addActions(1, this);
             }
             if (card.is(Type.Treasure, currentPlayer, context)) {
-                context.addCoins(1);
+                context.addCoins(1, this, playContext);
             }
             if (card.is(Type.Victory, currentPlayer)) {
-                game.drawToHand(context, this, 1);
+                game.drawToHand(context, this, 1, playContext);
             }
         }
     }
@@ -654,7 +655,7 @@ public class CardImplDarkAges extends CardImpl {
         }
     }
     
-    private void madman(MoveContext context, Game game, Player currentPlayer) {
+    private void madman(MoveContext context, Game game, Player currentPlayer, PlayContext playContext) {
         if (currentPlayer.isInPlay(this)) {
             // Return to the Madman pile
             currentPlayer.playedCards.remove(currentPlayer.playedCards.indexOf(this.getId()));
@@ -664,7 +665,7 @@ public class CardImplDarkAges extends CardImpl {
             int handSize = currentPlayer.hand.size();
 
             for (int i = 0; i < handSize; ++i) {
-                game.drawToHand(context, this, handSize - i);
+                game.drawToHand(context, this, handSize - i, playContext);
             }
         }
     }
@@ -684,7 +685,7 @@ public class CardImplDarkAges extends CardImpl {
         }
     }
     
-    private void mercenary(MoveContext context, Game game, Player currentPlayer) {
+    private void mercenary(MoveContext context, Game game, Player currentPlayer, PlayContext playContext) {
         int cardsTrashedCount = 0;
 
         Card[] cards = currentPlayer.controlPlayer.mercenary_cardsToTrash(context);
@@ -711,10 +712,10 @@ public class CardImplDarkAges extends CardImpl {
 
         if (cardsTrashedCount == 2)
         {
-            game.drawToHand(context, this, 2);
-            game.drawToHand(context, this, 1);
+            game.drawToHand(context, this, 2, playContext);
+            game.drawToHand(context, this, 1, playContext);
 
-            context.addCoins(2);
+            context.addCoins(2, this, playContext);
 
             for (Player player : game.getPlayersInTurnOrder()) {
                 if (player != currentPlayer && !Util.isDefendedFromAttack(game, player, this)) {
@@ -1048,7 +1049,7 @@ public class CardImplDarkAges extends CardImpl {
         }
     }
     
-    private void storeroom(Game game, MoveContext context, Player currentPlayer) {
+    private void storeroom(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         Card[] cards = currentPlayer.controlPlayer.storeroom_cardsToDiscardForCards(context);
         if (cards != null) {
             int numberOfCards = 0;
@@ -1068,7 +1069,8 @@ public class CardImplDarkAges extends CardImpl {
             }
 
             for (int i = 0; i < numberOfCards; ++i) {
-            	game.drawToHand(context, this, numberOfCards - i);
+                // Uses "draw" instead of "+Card"
+            	game.drawToHand(context, this, numberOfCards - i, new PlayContext());
             }
         }
 
@@ -1092,7 +1094,7 @@ public class CardImplDarkAges extends CardImpl {
 
             while (numberOfCards > 0) {
                 numberOfCards--;
-                context.addCoins(1);
+                context.addCoins(1, this, playContext);
             }
         }
     }

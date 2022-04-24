@@ -19,23 +19,23 @@ public class CardImplIntrigue extends CardImpl {
 	protected CardImplIntrigue() { }
 
 	@Override
-    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
+        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect, playContext);
 		switch(getKind()) {
 		case Baron:
-            baron(context, currentPlayer);
+            baron(context, currentPlayer, playContext);
             break;
 		case Bridge:
 	        context.cardCostModifier -= 1;
 	        break;
         case Conspirator:
-            conspirator(game, context, currentPlayer);
+            conspirator(game, context, currentPlayer, playContext);
             break;
         case Coppersmith:
             copperSmith(context);
             break;
         case Courtier:
-            courtier(game, context, currentPlayer);
+            courtier(game, context, currentPlayer, playContext);
             break;
         case Courtyard:
             courtyard(context, currentPlayer);
@@ -44,7 +44,7 @@ public class CardImplIntrigue extends CardImpl {
             diplomat(game, context, currentPlayer);
             break;
         case Ironworks:
-            ironworks(game, context, currentPlayer);
+            ironworks(game, context, currentPlayer, playContext);
             break;
         case Lurker:
             lurker(game, context, currentPlayer);
@@ -53,22 +53,22 @@ public class CardImplIntrigue extends CardImpl {
             masquerade(game, context, currentPlayer);
             break;
         case Mill:
-            mill(game, context, currentPlayer);
+            mill(game, context, currentPlayer, playContext);
             break;
         case MiningVillage:
-            miningVillage(context, currentPlayer);
+            miningVillage(context, currentPlayer, playContext);
             break;
         case Minion:
-            minion(game, context, currentPlayer);
+            minion(game, context, currentPlayer, playContext);
             break;
         case Nobles:
-            nobles(game, context, currentPlayer);
+            nobles(game, context, currentPlayer, playContext);
             break;
         case Patrol:
             scoutPatrol(game, context, currentPlayer, true);
             break;
         case Pawn:
-            pawn(game, context, currentPlayer);
+            pawn(game, context, currentPlayer, playContext);
             break;
         case Replace:
             replace(game, context, currentPlayer);
@@ -80,16 +80,16 @@ public class CardImplIntrigue extends CardImpl {
             scoutPatrol(game, context, currentPlayer, false);
             break;
         case SecretChamber:
-            secretChamber(context, currentPlayer);
+            secretChamber(context, currentPlayer, playContext);
             break;
         case SecretPassage:
             secretPassage(game, context, currentPlayer);
             break;
         case ShantyTown:
-            shantyTown(game, context, currentPlayer);
+            shantyTown(game, context, currentPlayer, playContext);
             break;
         case Steward:
-            steward(game, context, currentPlayer);
+            steward(game, context, currentPlayer, playContext);
             break;
         case Swindler:
             swindler(game, context, currentPlayer);
@@ -101,7 +101,7 @@ public class CardImplIntrigue extends CardImpl {
             tradingPost(context, currentPlayer);
             break;
         case Tribute:
-            tribute(game, context, currentPlayer);
+            tribute(game, context, currentPlayer, playContext);
             break;
         case Upgrade:
             upgrade(context, currentPlayer);
@@ -114,7 +114,7 @@ public class CardImplIntrigue extends CardImpl {
 		}
 	}
 	
-	private void baron(MoveContext context, Player currentPlayer) {
+	private void baron(MoveContext context, Player currentPlayer, PlayContext playContext) {
         boolean discard = false;
         for (Card cardToCheck : currentPlayer.hand) {
             if (cardToCheck.equals(Cards.estate)) {
@@ -127,16 +127,16 @@ public class CardImplIntrigue extends CardImpl {
             Card card = currentPlayer.hand.get(Cards.estate);
             currentPlayer.hand.remove(Cards.estate);
             currentPlayer.discard(card, this, context);
-            context.addCoins(4);
+            context.addCoins(4, this, playContext);
         } else {
             currentPlayer.gainNewCard(Cards.estate, this, context);
         }
     }
 	
-    private void conspirator(Game game, MoveContext context, Player currentPlayer) {
+    private void conspirator(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         if (context.actionsPlayedSoFar >= 3) {
             context.addActions(1, this);
-            game.drawToHand(context, this, 1);
+            game.drawToHand(context, this, 1, playContext);
         }
     }
     
@@ -144,7 +144,7 @@ public class CardImplIntrigue extends CardImpl {
         context.coppersmithsPlayed++;
     }
     
-    private void courtier(Game game, MoveContext context, Player currentPlayer) {
+    private void courtier(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         if (currentPlayer.getHand().size() == 0) return;
 
         Card card = currentPlayer.controlPlayer.courtier_cardToReveal(context);
@@ -178,7 +178,7 @@ public class CardImplIntrigue extends CardImpl {
                             context.buys++;
                             break;
                         case AddCoins:
-                            context.addCoins(3, this);
+                            context.addCoins(3, this, playContext);
                             break;
                         case GainGold:
                             currentPlayer.gainNewCard(Cards.gold, this, context);
@@ -208,7 +208,7 @@ public class CardImplIntrigue extends CardImpl {
         }
     }
    
-    private void ironworks(Game game, MoveContext context, Player currentPlayer) {
+    private void ironworks(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         Card card = currentPlayer.controlPlayer.ironworks_cardToObtain(context);
         if (card != null && card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
             if (currentPlayer.gainNewCard(card, this, context).equals(card)) {
@@ -217,10 +217,10 @@ public class CardImplIntrigue extends CardImpl {
                     context.addActions(1, this);
                 }
                 if (card.is(Type.Treasure, currentPlayer, context)) {
-                    context.addCoins(1);
+                    context.addCoins(1, this, playContext);
                 }
                 if (card.is(Type.Victory, currentPlayer)) {
-                    game.drawToHand(context, this, 1);
+                    game.drawToHand(context, this, 1, playContext);
                 }
             }
         }
@@ -318,7 +318,7 @@ public class CardImplIntrigue extends CardImpl {
     	}
     }
 
-    private void mill(Game game, MoveContext context, Player currentPlayer) {
+    private void mill(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         if (currentPlayer.getHand().size() == 0) {
             return;
         }
@@ -341,19 +341,19 @@ public class CardImplIntrigue extends CardImpl {
             currentPlayer.hand.remove(card);
         }
         if (cardsToDiscard.length == 2) {
-            context.addCoins(2, this);
+            context.addCoins(2, this, playContext);
         }
     }
 
-    private void miningVillage(MoveContext context, Player currentPlayer) {
+    private void miningVillage(MoveContext context, Player currentPlayer, PlayContext playContext) {
         if (currentPlayer.isInPlay(this) && currentPlayer.controlPlayer.miningVillage_shouldTrashMiningVillage(context, this)) {
         	if (currentPlayer.trashSelfFromPlay(this, context)) {
-        		context.addCoins(2);
+        		context.addCoins(2, this, playContext);
         	}
         }
     }
 
-    private void minion(Game game, MoveContext context, Player currentPlayer) {
+    private void minion(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         ArrayList<Player> playersToAttack = new ArrayList<Player>();
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player == currentPlayer || !Util.isDefendedFromAttack(game, player, this)) {
@@ -372,7 +372,7 @@ public class CardImplIntrigue extends CardImpl {
         }
 
         if (option == Player.MinionOption.AddGold) {
-            context.addCoins(2);
+            context.addCoins(2, this, playContext);
         } else if (option == Player.MinionOption.RolloverCards) {
             for (Player player : playersToAttack) {
                 if (player == currentPlayer || player.hand.size() >= 5) {
@@ -381,17 +381,18 @@ public class CardImplIntrigue extends CardImpl {
                     while (!player.hand.isEmpty()) {
                         player.discard(player.hand.remove(0), this, targetContext);
                     }
-
-                    game.drawToHand(targetContext, this, 4);
-                    game.drawToHand(targetContext, this, 3);
-                    game.drawToHand(targetContext, this, 2);
-                    game.drawToHand(targetContext, this, 1);
+                    // Uses "draw" instead of "+Card" for other players
+                    PlayContext drawContext = player == currentPlayer ? playContext : new PlayContext();
+                    game.drawToHand(targetContext, this, 4, drawContext);
+                    game.drawToHand(targetContext, this, 3, drawContext);
+                    game.drawToHand(targetContext, this, 2, drawContext);
+                    game.drawToHand(targetContext, this, 1, drawContext);
                 }
             }
         }
     }
 
-    private void nobles(Game game, MoveContext context, Player currentPlayer) {
+    private void nobles(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         Player.NoblesOption option = currentPlayer.controlPlayer.nobles_chooseOptions(context);
         if (option == null) {
             Util.playerError(currentPlayer, "Nobles option error, ignoring.");
@@ -399,14 +400,14 @@ public class CardImplIntrigue extends CardImpl {
             if (option == Player.NoblesOption.AddActions) {
                 context.addActions(2, this);
             } else if (option == Player.NoblesOption.AddCards) {
-                game.drawToHand(context, this, 3);
-                game.drawToHand(context, this, 2);
-                game.drawToHand(context, this, 1);
+                game.drawToHand(context, this, 3, playContext);
+                game.drawToHand(context, this, 2, playContext);
+                game.drawToHand(context, this, 1, playContext);
             }
         }
     }
 
-    private void pawn(Game game, MoveContext context, Player currentPlayer) {
+    private void pawn(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         Player.PawnOption[] options = currentPlayer.controlPlayer.pawn_chooseOptions(context);
         if (options == null || options.length != 2 || options[0] == options[1]) {
             Util.playerError(currentPlayer, "Pawn options error, ignoring.");
@@ -417,9 +418,9 @@ public class CardImplIntrigue extends CardImpl {
                 } else if (option == Player.PawnOption.AddBuy) {
                     context.buys++;
                 } else if (option == Player.PawnOption.AddCard) {
-                    game.drawToHand(context, this, 1);
+                    game.drawToHand(context, this, 1, playContext);
                 } else if (option == Player.PawnOption.AddGold) {
-                    context.addCoins(1);
+                    context.addCoins(1, this, playContext);
                 }
             }
         }
@@ -601,7 +602,7 @@ public class CardImplIntrigue extends CardImpl {
         }
     }
     
-    private void secretChamber(MoveContext context, Player currentPlayer) {
+    private void secretChamber(MoveContext context, Player currentPlayer, PlayContext playContext) {
         Card[] cards = currentPlayer.controlPlayer.secretChamber_cardsToDiscard(context);
         if (cards != null) {
             int numberOfCardsDiscarded = 0;
@@ -616,7 +617,7 @@ public class CardImplIntrigue extends CardImpl {
                 Util.playerError(currentPlayer, "Secret chamber discard error, trying to discard cards not in hand, ignoring extra.");
             }
 
-            context.addCoins(numberOfCardsDiscarded);
+            context.addCoins(numberOfCardsDiscarded, this, playContext);
         }
     }
 
@@ -641,7 +642,7 @@ public class CardImplIntrigue extends CardImpl {
 
     }
     
-    private void shantyTown(Game game, MoveContext context, Player currentPlayer) {
+    private void shantyTown(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         boolean actions = false;
         for (Card card : currentPlayer.hand) {
             currentPlayer.reveal(card, this, context);
@@ -652,22 +653,22 @@ public class CardImplIntrigue extends CardImpl {
         }
 
         if (!actions) {
-            game.drawToHand(context, this, 2);
-            game.drawToHand(context, this, 1);
+            game.drawToHand(context, this, 2, playContext);
+            game.drawToHand(context, this, 1, playContext);
         }
     }
     
-    private void steward(Game game, MoveContext context, Player currentPlayer) {
+    private void steward(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         Player.StewardOption option = currentPlayer.controlPlayer.steward_chooseOption(context);
 
         if (option == null) {
             Util.playerError(currentPlayer, "Steward option error, ignoring.");
         } else {
             if (option == Player.StewardOption.AddGold) {
-                context.addCoins(2);
+                context.addCoins(2, this, playContext);
             } else if (option == Player.StewardOption.AddCards) {
-                game.drawToHand(context, this, 2);
-                game.drawToHand(context, this, 1);
+                game.drawToHand(context, this, 2, playContext);
+                game.drawToHand(context, this, 1, playContext);
             } else if (option == Player.StewardOption.TrashCards) {
                 CardList hand = currentPlayer.getHand();
                 if (hand.size() == 0) {
@@ -865,7 +866,7 @@ public class CardImplIntrigue extends CardImpl {
         }
     }
     
-    private void tribute(Game game, MoveContext context, Player currentPlayer) {
+    private void tribute(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         Card[] revealedCards = new Card[2];
         Player nextPlayer = game.getNextPlayer();
         MoveContext targetContext = new MoveContext(game, nextPlayer);
@@ -893,11 +894,11 @@ public class CardImplIntrigue extends CardImpl {
                     context.addActions(2, this);
                 }
                 if (card.is(Type.Treasure, nextPlayer, context)) {
-                    context.addCoins(2);
+                    context.addCoins(2, this, playContext);
                 }
                 if (card.is(Type.Victory, nextPlayer)) {
-                    game.drawToHand(context, this, 2);
-                    game.drawToHand(context, this, 1);
+                    game.drawToHand(context, this, 2, playContext);
+                    game.drawToHand(context, this, 1, playContext);
                 }
             }
         }

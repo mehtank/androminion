@@ -17,8 +17,8 @@ public class CardImplProsperity extends CardImpl {
 	protected CardImplProsperity() { }
 
 	@Override
-    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
+        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect, playContext);
 		switch(getKind()) {
 		case Bank:
 			context.addCoins(context.countTreasureCardsInPlay());
@@ -27,7 +27,7 @@ public class CardImplProsperity extends CardImpl {
             bishop(game, context, currentPlayer);
             break;
         case City:
-            city(game, context, currentPlayer);
+            city(game, context, currentPlayer, playContext);
             break;
         case Contraband:
         	contraband(context, game);
@@ -60,10 +60,10 @@ public class CardImplProsperity extends CardImpl {
             rabble(game, context, currentPlayer);
             break;
         case TradeRoute:
-            tradeRoute(game, context, currentPlayer);
+            tradeRoute(game, context, currentPlayer, playContext);
             break;
         case Vault:
-            vault(game, context, currentPlayer);
+            vault(game, context, currentPlayer, playContext);
             break;
         case Venture:
         	loanVenture(context, currentPlayer, game);
@@ -123,13 +123,13 @@ public class CardImplProsperity extends CardImpl {
         }
     }
 	
-	private void city(Game game, MoveContext context, Player currentPlayer) {
+	private void city(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         if (game.emptyPiles() > 0) {
-            game.drawToHand(context, this, 1);
+            game.drawToHand(context, this, 1, playContext);
         }
         if (game.emptyPiles() > 1) {
             context.buys++;
-            context.addCoins(1);
+            context.addCoins(1, this, playContext);
         }
     }
 	
@@ -390,7 +390,7 @@ public class CardImplProsperity extends CardImpl {
         }
     }
 
-    private void tradeRoute(Game game, MoveContext context, Player currentPlayer) {
+    private void tradeRoute(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         if (!currentPlayer.hand.isEmpty()) {
             Card card = currentPlayer.controlPlayer.tradeRoute_cardToTrash(context);
 
@@ -402,10 +402,10 @@ public class CardImplProsperity extends CardImpl {
             currentPlayer.trashFromHand(card, this, context);
         }
 
-        context.addCoins(game.tradeRouteValue);
+        context.addCoins(game.tradeRouteValue, this, playContext);
     }
 
-    private void vault(Game game, MoveContext context, Player currentPlayer) {
+    private void vault(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         Card[] cards = currentPlayer.controlPlayer.vault_cardsToDiscardForGold(context);
         if (cards != null) {
             int numberOfCardsDiscarded = 0;
@@ -420,7 +420,7 @@ public class CardImplProsperity extends CardImpl {
                 Util.playerError(currentPlayer, "Vault discard error, trying to discard cards not in hand, ignoring extra.");
             }
 
-            context.addCoins(numberOfCardsDiscarded);
+            context.addCoins(numberOfCardsDiscarded, this, playContext);
         }
 
         for (Player player : game.getPlayersInTurnOrder()) {
@@ -451,7 +451,8 @@ public class CardImplProsperity extends CardImpl {
                     }
 
                     if (numberOfCardsDiscarded == 2) {
-                        game.drawToHand(playerContext, this, 1);
+                        // Uses "draw" instead of "+Card"
+                        game.drawToHand(playerContext, this, 1, new PlayContext());
                     }
                 }
             }
@@ -460,11 +461,12 @@ public class CardImplProsperity extends CardImpl {
 
     private void watchTower(Game game, MoveContext context, Player currentPlayer) {
     	int cardsToDraw = 6 - currentPlayer.hand.size();
+    	PlayContext drawContext = new PlayContext();
     	if (cardsToDraw > 0 && currentPlayer.getMinusOneCardToken()) {
-        	game.drawToHand(context, this, -1);
+        	game.drawToHand(context, this, -1, drawContext);
         }
     	for (int i = 0; i < cardsToDraw; ++i) {
-    		if(!game.drawToHand(context, this, cardsToDraw - i))
+    		if(!game.drawToHand(context, this, cardsToDraw - i, drawContext))
                 break;
     	}
     }

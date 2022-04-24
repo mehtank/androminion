@@ -16,8 +16,8 @@ public class CardImplRenaissance extends CardImpl {
 
 	protected CardImplRenaissance() { }
 
-	public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-		super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
+	public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
+		super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect, playContext);
 		switch(getKind()) {
 		case ActingTroupe:
 			actingTroupe(game, context, currentPlayer);
@@ -53,7 +53,7 @@ public class CardImplRenaissance extends CardImpl {
 			context.addCoins(1);
 			break;
 		case MountainVillage:
-			mountainVillage(game, context, currentPlayer);
+			mountainVillage(game, context, currentPlayer, playContext);
 			break;
 		case OldWitch:
 			oldWitch(game, context, currentPlayer);
@@ -62,7 +62,7 @@ public class CardImplRenaissance extends CardImpl {
 			piazza(game, context, currentPlayer);
 			break;
 		case Priest:
-			priest(game, context, currentPlayer);
+			priest(game, context, currentPlayer, playContext);
 			break;
 		case Recruiter:
 			recruiter(game, context, currentPlayer);
@@ -74,7 +74,7 @@ public class CardImplRenaissance extends CardImpl {
 			scepter(game, context, currentPlayer);
 			break;
 		case Scholar:
-			scholar(game, context, currentPlayer);
+			scholar(game, context, currentPlayer, playContext);
 			break;
 		case Sculptor:
 			sculptor(game, context, currentPlayer);
@@ -187,7 +187,7 @@ public class CardImplRenaissance extends CardImpl {
 	}
 	
 	private void cityGate(Game game, MoveContext context, Player player) {
-		game.drawToHand(context, this, 1);
+		game.drawToHand(context, this, 1, new PlayContext());
 		if (player.getHand().size() == 0) 
 			return;
 		Card card = player.getHand().size() == 1 ? player.getHand().get(0) : player.controlPlayer.cityGate_cardToPutBackOnDeck(context);
@@ -234,10 +234,11 @@ public class CardImplRenaissance extends CardImpl {
             if (numberOfCards != 1) {
                 Util.playerError(player, "Crop Rotation discard error, trying to discard card not in hand, ignoring.");
             }
-            
+
+            PlayContext playContext = new PlayContext();
             int numToDraw = 2 * numberOfCards;
             for (int i = 0; i < numToDraw; ++i) {
-            	game.drawToHand(context, Cards.cropRotation, numToDraw - i);
+            	game.drawToHand(context, Cards.cropRotation, numToDraw - i, playContext);
             }
         }
 	}
@@ -285,7 +286,7 @@ public class CardImplRenaissance extends CardImpl {
         context.cardCostModifier -= 1;
 	}
 	
-	private void mountainVillage(Game game, MoveContext context, Player currentPlayer) {
+	private void mountainVillage(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
 		if (currentPlayer.getDiscardSize() > 0)
         {
 			if (currentPlayer.getDiscardSize() == 1) {
@@ -309,7 +310,7 @@ public class CardImplRenaissance extends CardImpl {
                 }
             }
         } else {
-        	game.drawToHand(context, this, 0);
+        	game.drawToHand(context, this, 0, playContext);
         }
 	}
 	
@@ -346,7 +347,7 @@ public class CardImplRenaissance extends CardImpl {
         }
 	}
 	
-	private void priest(Game game, MoveContext context, Player player) {
+	private void priest(Game game, MoveContext context, Player player, PlayContext playContext) {
 		CardList hand = player.getHand();
 		if(hand.size() > 0) {
 	        Card trashCard = player.controlPlayer.priest_cardToTrash(context);
@@ -356,8 +357,10 @@ public class CardImplRenaissance extends CardImpl {
 	        }
 	        player.trashFromHand(trashCard, this, context);
 		}
-		//TODO: give cards instead of coins for Chameleon
-		context.coinsWhenTrash += 2;
+		if (playContext.chameleonEffect)
+			context.cardsWhenTrash += 2;
+		else
+			context.coinsWhenTrash += 2;
 	}
 	
 	private void recruiter(Game game, MoveContext context, Player player) {
@@ -411,7 +414,7 @@ public class CardImplRenaissance extends CardImpl {
 	
 	private void scepter(Game game, MoveContext context, Player player) {
 		if (player.controlPlayer.scepter_shouldChooseCoinsOverReplay(context)) {
-			context.addCoins(2, this);
+			context.addCoins(2, this, new PlayContext());
 		} else {
 			//replay an action card played this turn still in play
 			if (context.actionsPlayedThisTurnStillInPlay.size() == 0) return;
@@ -427,14 +430,14 @@ public class CardImplRenaissance extends CardImpl {
 		}
 	}
 	
-	private void scholar(Game game, MoveContext context, Player player) {
+	private void scholar(Game game, MoveContext context, Player player, PlayContext playContext) {
 		if (player.getHand().size() > 0) {
             while (!player.getHand().isEmpty()) {
                 player.discard(player.getHand().remove(0), this, context);
             }
         }
 		for (int i = 0; i < 7; ++i) {
-			game.drawToHand(context, this, 7 - i);
+			game.drawToHand(context, this, 7 - i, playContext);
 		}
 	}
 	
@@ -566,9 +569,9 @@ public class CardImplRenaissance extends CardImpl {
 			if (numDiscarded == numCoppersToDiscard)
 				break;
 		}
-                    
+		PlayContext drawContext = new PlayContext();
         for (int i = 0; i < numDiscarded; ++i) {
-        	game.drawToHand(context, this, numDiscarded - i);
+        	game.drawToHand(context, this, numDiscarded - i, drawContext);
         }
 	}
 	
@@ -587,8 +590,9 @@ public class CardImplRenaissance extends CardImpl {
     		event.setAmount(numToDraw);
     		event.card = this;
     		game.broadcastEvent(event);
+    		PlayContext drawContext = new PlayContext();
             for (int i = 0; i < numToDraw; ++i) {
-            	game.drawToHand(context, Cards.sinisterPlot, numToDraw - i);
+            	game.drawToHand(context, Cards.sinisterPlot, numToDraw - i, drawContext);
             }
 		}
 	}

@@ -18,8 +18,8 @@ public class CardImplBase extends CardImpl {
 	protected CardImplBase() { }
 
 	@Override
-    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
+        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect, playContext);
 		switch (this.getKind()) {
 			case Adventurer:
 	            adventurer(game, context, currentPlayer);
@@ -55,7 +55,7 @@ public class CardImplBase extends CardImpl {
                 library(game, context, currentPlayer);
                 break;
 			case Merchant:
-				merchant(game, context, currentPlayer);
+				merchant(game, context, currentPlayer, playContext);
 				break;
 			case Militia:
                 militia(game, context, currentPlayer);
@@ -64,7 +64,7 @@ public class CardImplBase extends CardImpl {
                 mine(context, currentPlayer);
                 break;
 			case Moneylender:
-	            moneyLender(context, currentPlayer);
+	            moneyLender(context, currentPlayer, playContext);
 	            break;
 			case Poacher:
 				poacher(game, context, currentPlayer);
@@ -264,7 +264,8 @@ public class CardImplBase extends CardImpl {
             }
 
             for (int i = 0; i < numberOfCards; ++i) {
-            	game.drawToHand(context, this, numberOfCards - i);
+                // Uses "draw" instead of "+Card"
+            	game.drawToHand(context, this, numberOfCards - i, new PlayContext());
             }
         }
     }
@@ -301,7 +302,8 @@ public class CardImplBase extends CardImpl {
     private void councilRoom(Game game, MoveContext context) {
         for (Player player : game.getPlayersInTurnOrder()) {
             if (player != context.getPlayer()) {
-                game.drawToHand(new MoveContext(game, player), this, 1);
+                // Uses "draw" instead of "+Card"
+                game.drawToHand(new MoveContext(game, player), this, 1, new PlayContext());
             }
         }
     }
@@ -364,8 +366,11 @@ public class CardImplBase extends CardImpl {
         }
     }
     
-    private void merchant(Game game, MoveContext context, Player currentPlayer) {
-        context.merchantsPlayed++;
+    private void merchant(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
+	    if (playContext.chameleonEffect)
+	        context.merchantsPlayedCards++;
+	    else
+            context.merchantsPlayedCoins++;
     }
     
     private void militia(Game game, MoveContext context, Player currentPlayer) {
@@ -427,14 +432,14 @@ public class CardImplBase extends CardImpl {
         }
     }
 
-    private void moneyLender(MoveContext context, Player currentPlayer) {
+    private void moneyLender(MoveContext context, Player currentPlayer, PlayContext playContext) {
         for (int i = 0; i < currentPlayer.hand.size(); i++) {
             Card card = currentPlayer.hand.get(i);
             if (card.equals(Cards.copper)) {
             	boolean choseTrash = false;
             	if (Game.errataMoneylenderForced || (choseTrash = currentPlayer.controlPlayer.moneylender_shouldTrashCopper(context))) {
 	                Card thisCard = currentPlayer.hand.get(i);
-	                context.addCoins(3);
+	                context.addCoins(3, this, playContext);
 	                currentPlayer.trashFromHand(thisCard, this, context);
 	                break;
             	}

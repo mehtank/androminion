@@ -15,14 +15,14 @@ public class CardImplAlchemy extends CardImpl {
 	protected CardImplAlchemy() { }
 
 	@Override
-    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
+        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect, playContext);
 		switch(getKind()) {
 		case Apothecary:
             apothecary(game, context, currentPlayer);
             break;
 		case Apprentice:
-            apprentice(game, context, currentPlayer);
+            apprentice(game, context, currentPlayer, playContext);
             break;
 		case Familiar:
             witchFamiliar(game, context, currentPlayer);
@@ -76,7 +76,7 @@ public class CardImplAlchemy extends CardImpl {
         }
     }
 	
-	private void apprentice(Game game, MoveContext context, Player currentPlayer) {
+	private void apprentice(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         if(currentPlayer.hand.size() > 0) {
             Card cardToTrash = currentPlayer.controlPlayer.apprentice_cardToTrash(context);
             if (cardToTrash == null || !currentPlayer.hand.contains(cardToTrash)) {
@@ -87,7 +87,7 @@ public class CardImplAlchemy extends CardImpl {
 
             int cardsToDraw = (cardToTrash.getCost(context) + (cardToTrash.costPotion() ? 2 : 0));
             for (int i = 1; i <= cardsToDraw; i++) {
-                game.drawToHand(context, this, cardsToDraw - i);
+                game.drawToHand(context, this, cardsToDraw - i, playContext);
             }
         }
     }

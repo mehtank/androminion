@@ -22,20 +22,20 @@ public class CardImplMenagerie extends CardImpl {
 	protected CardImplMenagerie() { }
 
 	@Override
-	public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-		super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
+	public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
+		super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect, playContext);
 		switch(getKind()) {
 		case AnimalFair:
 			animalFair(game, context, currentPlayer);
 			break;
 		case Barge:
-			barge(game, context, currentPlayer, isThronedEffect);
+			barge(game, context, currentPlayer, isThronedEffect, playContext);
 			break;
 		case BlackCat:
 			blackCat(game, context, currentPlayer);
 			break;
 		case BountyHunter:
-			bountyHunter(game, context, currentPlayer);
+			bountyHunter(game, context, currentPlayer, playContext);
 			break;
 		case CamelTrain:
 			camelTrain(game, context, currentPlayer);
@@ -59,16 +59,16 @@ public class CardImplMenagerie extends CardImpl {
 			durationAttack(game, context, currentPlayer);
 			break;
 		case Goatherd:
-			goatherd(game, context, currentPlayer);
+			goatherd(game, context, currentPlayer, playContext);
 			break;
 		case Groom:
-			groom(game, context, currentPlayer);
+			groom(game, context, currentPlayer, playContext);
 			break;
 		case Horse:
 			horse(game, context, currentPlayer);
 			break;
 		case HuntingLodge:
-			huntingLodge(game, context, currentPlayer);
+			huntingLodge(game, context, currentPlayer, playContext);
 			break;
 		case Kiln:
 			kiln(game, context, currentPlayer);
@@ -86,7 +86,7 @@ public class CardImplMenagerie extends CardImpl {
 			sanctuary(game, context, currentPlayer);
 			break;
 		case Scrap:
-			scrap(game, context, currentPlayer);
+			scrap(game, context, currentPlayer, playContext);
 			break;
 		case Sleigh:
 			sleigh(game, context, currentPlayer);
@@ -108,6 +108,9 @@ public class CardImplMenagerie extends CardImpl {
 			break;
 		case WayOfTheCamel:
 			wayOfTheCamel(game, context, currentPlayer);
+			break;
+		case WayOfTheChameleon:
+			wayOfTheChameleon(game, context, currentPlayer, responsible);
 			break;
 		case WayOfTheFrog:
 			wayOfTheFrog(game, context, currentPlayer, responsible);
@@ -143,7 +146,7 @@ public class CardImplMenagerie extends CardImpl {
 			wayOfTheWorm(game, context, currentPlayer);
 			break;
 		case VillageGreen:
-			villageGreen(game, context, currentPlayer, isThronedEffect);
+			villageGreen(game, context, currentPlayer, isThronedEffect, playContext);
 			break;
 		default:
 			break;
@@ -259,10 +262,10 @@ public class CardImplMenagerie extends CardImpl {
         }
 	}
 	
-	private void barge(Game game, MoveContext context, Player player, boolean isThronedEffect) {
+	private void barge(Game game, MoveContext context, Player player, boolean isThronedEffect, PlayContext playContext) {
 		if (player.controlPlayer.barge_shouldReceiveNow(context)) {
 			for (int i = 0; i < 3; ++i) {
-            	game.drawToHand(context, this, 3 - i);
+            	game.drawToHand(context, this, 3 - i, playContext);
             }
 			context.buys += 1;
 			return;
@@ -288,7 +291,7 @@ public class CardImplMenagerie extends CardImpl {
         }
 	}
 	
-	private void bountyHunter(Game game, MoveContext context, Player player) {
+	private void bountyHunter(Game game, MoveContext context, Player player, PlayContext playContext) {
 		CardList hand = player.getHand();
 		if(hand.size() == 0)
 			return;
@@ -300,7 +303,7 @@ public class CardImplMenagerie extends CardImpl {
         boolean hasCopyInExile = player.hasCopyInExile(exileCard);
         player.exileFromHand(exileCard, this, context);
         if (!hasCopyInExile) {
-        	context.addCoins(3, Cards.bountyHunter);
+        	context.addCoins(3, Cards.bountyHunter, playContext);
         }
 	}
 	
@@ -455,7 +458,7 @@ public class CardImplMenagerie extends CardImpl {
 		player.gainNewCard(toGain, Cards.falconer, context);
 	}
 	
-	private void goatherd(Game game, MoveContext context, Player player) {
+	private void goatherd(Game game, MoveContext context, Player player, PlayContext playContext) {
 		if (!player.hand.isEmpty()) {
 			Card toTrash = player.controlPlayer.goatherd_cardToTrash(context);
 			if (toTrash != null) {
@@ -469,11 +472,11 @@ public class CardImplMenagerie extends CardImpl {
 		
 		int draws = game.getCardsTrashedByLastPlayer().size();
 		for (int i = 0; i < draws; ++i) {
-			game.drawToHand(context, this, draws - i);
+			game.drawToHand(context, this, draws - i, playContext);
 		}
 	}
 	
-	private void groom(Game game, MoveContext context, Player player) {
+	private void groom(Game game, MoveContext context, Player player, PlayContext playContext) {
 		Card card = player.controlPlayer.groom_cardToObtain(context);
         if (card != null && card.getCost(context) <= 4 && card.getDebtCost(context) == 0 && !card.costPotion()) {
             if (player.gainNewCard(card, this, context).equals(card)) {
@@ -484,7 +487,7 @@ public class CardImplMenagerie extends CardImpl {
                 	player.gainNewCard(Cards.silver, this, context);
                 }
                 if (card.is(Type.Victory, player)) {
-                	game.drawToHand(context, this, 1);
+                	game.drawToHand(context, this, 1, playContext);
                 	context.addActions(1, this);
                 }
             }
@@ -500,7 +503,7 @@ public class CardImplMenagerie extends CardImpl {
         pile.addCard(card);	
 	}
 	
-	private void huntingLodge(Game game, MoveContext context, Player player) {
+	private void huntingLodge(Game game, MoveContext context, Player player, PlayContext playContext) {
 		if (player.getHand().size() == 0) return;
 		if (!player.controlPlayer.huntingLodge_shouldDiscardHand(context)) {
 			return;
@@ -509,7 +512,7 @@ public class CardImplMenagerie extends CardImpl {
             player.discard(player.getHand().remove(0), this, context);
         }
 		for (int i = 0; i < 5; ++i) {
-			game.drawToHand(context, this, 5 - i);
+			game.drawToHand(context, this, 5 - i, playContext);
 		}
 	}
 	
@@ -544,7 +547,7 @@ public class CardImplMenagerie extends CardImpl {
     	}
 	}
 	
-	private void scrap(Game game, MoveContext context, Player player) {
+	private void scrap(Game game, MoveContext context, Player player, PlayContext playContext) {
 		if (player.getHand().size() == 0) return;
 
         Card card = player.controlPlayer.scrap_cardToTrash(context);
@@ -577,10 +580,10 @@ public class CardImplMenagerie extends CardImpl {
                             context.buys++;
                             break;
                         case AddCoin:
-                            context.addCoins(1, this);
+                            context.addCoins(1, this, playContext);
                             break;
                         case AddCard:
-                        	game.drawToHand(context, this, 1);
+                        	game.drawToHand(context, this, 1, playContext);
                         	break;
                         case GainSilver:
                             player.gainNewCard(Cards.silver, this, context);
@@ -617,9 +620,9 @@ public class CardImplMenagerie extends CardImpl {
 			player.gainNewCard(Cards.silver, this, context);
 	}
 	
-	private void villageGreen (Game game, MoveContext context, Player player, boolean isThronedEffect) {
+	private void villageGreen (Game game, MoveContext context, Player player, boolean isThronedEffect, PlayContext playContext) {
 		if (player.controlPlayer.villageGreen_shouldReceiveNow(context)) {
-        	game.drawToHand(context, this, 1);
+        	game.drawToHand(context, this, 1, playContext);
             context.addActions(2);
 			return;
 	    }
@@ -705,7 +708,7 @@ public class CardImplMenagerie extends CardImpl {
 		if (context.player.controlPlayer.desperation_shouldGainCurse(context)) {
 			if (Cards.curse.equals(context.player.gainNewCard(Cards.curse, Cards.desperation, context))) {
 				context.buys++;
-				context.addCoins(2, Cards.desperation);
+				context.addCoins(2, Cards.desperation, new PlayContext());
 			}
 		}
 	}
@@ -950,6 +953,12 @@ public class CardImplMenagerie extends CardImpl {
 		player.exileFromSupply(Cards.gold, Cards.wayOfTheCamel, context);
 	}
 
+	private void wayOfTheChameleon(Game game, MoveContext context, Player player, Card responsible) {
+		PlayContext playContext = new PlayContext();
+		playContext.chameleonEffect = true;
+		responsible.followInstructions(game, context, Cards.wayOfTheChameleon, player, false, playContext);
+	}
+
 	private void wayOfTheFrog(Game game, MoveContext context, Player player, Card responsible) {
 		context.frogCards.add(responsible);
 	}
@@ -980,8 +989,9 @@ public class CardImplMenagerie extends CardImpl {
                 player.discard(player.getHand().remove(0), this, context);
             }
         }
+		PlayContext playContext = new PlayContext();
 		for (int i = 0; i < 3; ++i) {
-			game.drawToHand(context, this, 3 - i);
+			game.drawToHand(context, this, 3 - i, playContext);
 		}
 	}
 
@@ -991,11 +1001,12 @@ public class CardImplMenagerie extends CardImpl {
 	
 	private void wayOfTheOwl(Game game, MoveContext context, Player player) {
 		int cardsToDraw = 6 - player.hand.size();
+		PlayContext playContext = new PlayContext();
     	if (cardsToDraw > 0 && player.getMinusOneCardToken()) {
-        	game.drawToHand(context, Cards.wayOfTheOwl, -1);
+        	game.drawToHand(context, Cards.wayOfTheOwl, -1, playContext);
         }
     	for (int i = 0; i < cardsToDraw; ++i) {
-    		if(!game.drawToHand(context, Cards.wayOfTheOwl, cardsToDraw - i))
+    		if(!game.drawToHand(context, Cards.wayOfTheOwl, cardsToDraw - i, playContext))
                 break;
     	}
 	}

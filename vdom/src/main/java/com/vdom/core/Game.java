@@ -798,8 +798,11 @@ public class Game {
         }
 
         // draw next hand
-        for (int i = 0; i < handCount; i++) {
-            drawToHand(context, null, handCount - i, false);
+        {
+            PlayContext drawContext = new PlayContext();
+            for (int i = 0; i < handCount; i++) {
+                drawToHand(context, null, handCount - i, false, drawContext);
+            }
         }
         	        	
         // /////////////////////////////////
@@ -826,15 +829,17 @@ public class Game {
 		}
 		
 		for (Player currentPlayer : getPlayersInTurnOrder()) {
+            PlayContext drawContext = new PlayContext();
         	for (int i = 0; i < currentPlayer.theRiversGiftDraw; ++i) {
-            	drawToHand(context, Cards.theRiversGift, player.theRiversGiftDraw - i);
+            	drawToHand(context, Cards.theRiversGift, player.theRiversGiftDraw - i, drawContext);
             }
         	currentPlayer.theRiversGiftDraw = 0;
         }
         
         for (Player currentPlayer : getPlayersInTurnOrder()) {
+            PlayContext drawContext = new PlayContext();
         	for (int i = 0; i < currentPlayer.wayOfTheSquirrelDraw; ++i) {
-            	drawToHand(context, Cards.wayOfTheSquirrel, player.wayOfTheSquirrelDraw - i);
+            	drawToHand(context, Cards.wayOfTheSquirrel, player.wayOfTheSquirrelDraw - i, drawContext);
             }
         	currentPlayer.wayOfTheSquirrelDraw = 0;
         }
@@ -939,8 +944,9 @@ public class Game {
                 player.deck.add(player.hand.removeLastCard());
             }
             player.shuffleDeck(context, Cards.donate);
+            PlayContext drawContext = new PlayContext();
             for (int i = 0; i < 5; ++i) {
-                drawToHand(context, Cards.donate, 5 - i);
+                drawToHand(context, Cards.donate, 5 - i, drawContext);
         	}
         }
         
@@ -1537,7 +1543,7 @@ public class Game {
             	//BUG: this doesn't let you call estates inheriting horse trader differently
                 Card horseTrader = player.horseTraders.remove(0);
                 player.hand.add(horseTrader);
-                drawToHand(context, horseTrader, 1);
+                drawToHand(context, horseTrader, 1, new PlayContext());
             } else if(card.is(Type.Boon)) {
             	recieveBoonAndDiscard(context, card, Cards.blessedVillage);
             } else if(card.equals(Cards.cathedral) || card.equals(Cards.cityGate) ||
@@ -1575,16 +1581,17 @@ public class Game {
                 	CardImplNocturne.cryptSelect(this, context, player, setAsideCards);
                 }
                 if (card.equals(Cards.secretCave)) {
-                	context.addCoins(3, card);
+                	context.addCoins(3, card, new PlayContext());
                 }
                 if (card.equals(Cards.barge)) {
+                    PlayContext drawContext = new PlayContext();
                 	for (int i = 0; i < 3; ++i) {
-                    	context.game.drawToHand(context, card, 3 - i);
+                    	context.game.drawToHand(context, card, 3 - i, drawContext);
                     }
         			context.buys += 1;
                 }
                 if (card.equals(Cards.villageGreen)) {
-                    context.game.drawToHand(context, card, 1);
+                    context.game.drawToHand(context, card, 1, new PlayContext());
                     context.addActions(2);
                 }
                 
@@ -1613,12 +1620,13 @@ public class Game {
                     addCardsNextTurn = 1;
                 }
 
+                PlayContext drawContext = new PlayContext();
                 for (int i = 0; i < addCardsNextTurn; i++) {
-                    drawToHand(context, thisCard, addCardsNextTurn - i, true);
+                    drawToHand(context, thisCard, addCardsNextTurn - i, true, drawContext);
                 }
                 
                 if (thisCard.getKind() == Cards.Kind.Amulet) {
-                	((CardImplAdventures) thisCard).amuletEffect(context.game, context, player);
+                	((CardImplAdventures) thisCard).amuletEffect(context.game, context, player, new PlayContext());
                 }
                 if (thisCard.getKind() == Cards.Kind.Dungeon) {
                 	((CardImpl) thisCard).discardMultiple(context, player, 2);
@@ -2758,11 +2766,16 @@ public class Game {
     }
 
     // Use drawToHand when "drawing" or "+ X cards" when -1 Card token could be drawn instead
-    boolean drawToHand(MoveContext context, Card responsible, int cardsLeftToDraw) {
-        return drawToHand(context, responsible, cardsLeftToDraw, true);
+    boolean drawToHand(MoveContext context, Card responsible, int cardsLeftToDraw, PlayContext playContext) {
+        return drawToHand(context, responsible, cardsLeftToDraw, true, playContext);
     }
 
-    boolean drawToHand(MoveContext context, Card responsible, int cardsLeftToDraw, boolean showUI) {
+    boolean drawToHand(MoveContext context, Card responsible, int cardsLeftToDraw, boolean showUI, PlayContext playContext) {
+        if (playContext.chameleonEffect) {
+            context.addCoins(1, responsible, new PlayContext());
+            return true;
+        }
+
     	Player player = context.player;
     	if (player.getMinusOneCardToken()) {
     		player.setMinusOneCardToken(false, context);
@@ -3222,8 +3235,9 @@ public class Game {
             }
 
             if (!equalStartHands || i == 0) {
+                PlayContext drawContext = new PlayContext();
                 while (player.hand.size() < 5)
-                    drawToHand(new MoveContext(this, player), null, 5 - player.hand.size(), false);
+                    drawToHand(new MoveContext(this, player), null, 5 - player.hand.size(), false, drawContext);
             }
             else {
                 // make subsequent player hands equal
@@ -4452,7 +4466,7 @@ public class Game {
                             	continue;
                             MoveContext otherPlayerContext = new MoveContext(context.game, otherPlayer);
                             if (otherPlayer.hasProject(Cards.roadNetwork)) {
-                            	context.game.drawToHand(otherPlayerContext, Cards.roadNetwork, 1);
+                            	context.game.drawToHand(otherPlayerContext, Cards.roadNetwork, 1, new PlayContext());
                             }
                             while(otherPlayer.getCardInHand(Cards.blackCat) != null && otherPlayer.controlPlayer.blackCat_shouldPlay(otherPlayerContext)) {
                             	otherPlayer.getCardInHand(Cards.blackCat).play(context.game, otherPlayerContext, true);
@@ -4582,7 +4596,7 @@ public class Game {
                     } else if (gainedCardAbility.equals(Cards.lostCity)) {
                         for(Player targetPlayer : getPlayersInTurnOrder()) {
                             if(targetPlayer != player) {
-                                drawToHand(new MoveContext(Game.this, targetPlayer), Cards.lostCity, 1, true);
+                                drawToHand(new MoveContext(Game.this, targetPlayer), Cards.lostCity, 1, true, new PlayContext());
                             }
                         }
                     } else if (gainedCardAbility.equals(Cards.emporium)) {
@@ -4688,8 +4702,9 @@ public class Game {
                     	}
                     } else if (gainedCardAbility.equals(Cards.cavalry)) {
                     	if (context.game.getCurrentPlayer() == player) {
+                    	    PlayContext drawContext = new PlayContext();
                     		for (int i = 0; i < 2; ++i) {
-                    			context.game.drawToHand(context, Cards.cavalry, 2 - i);
+                    			context.game.drawToHand(context, Cards.cavalry, 2 - i, drawContext);
                     		}
 							context.buys++;
 							if (context.phase == TurnPhase.Buy) {

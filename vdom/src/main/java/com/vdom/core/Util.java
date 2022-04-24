@@ -320,8 +320,9 @@ public class Util {
 
         if (found) {
 
-            game.drawToHand(context, Cards.secretChamber, 2);
-            game.drawToHand(context, Cards.secretChamber, 1);
+            PlayContext drawContext = new PlayContext();
+            game.drawToHand(context, Cards.secretChamber, 2, drawContext);
+            game.drawToHand(context, Cards.secretChamber, 1, drawContext);
 
             if (player.hand.size() > 0) {
                 Card[] cards = player.controlPlayer.secretChamber_cardsToPutOnDeck(context);
@@ -426,8 +427,9 @@ public class Util {
         }
 
         if (found) {
-            game.drawToHand(context, reactionCard, 2);
-            game.drawToHand(context, reactionCard, 1);
+            PlayContext drawContext = new PlayContext();
+            game.drawToHand(context, reactionCard, 2, drawContext);
+            game.drawToHand(context, reactionCard, 1, drawContext);
 
             if (player.hand.size() > 0) {
                 Card[] cards = player.controlPlayer.diplomat_cardsToDiscard(context);

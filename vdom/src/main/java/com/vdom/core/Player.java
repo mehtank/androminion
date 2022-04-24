@@ -1874,7 +1874,7 @@ public abstract class Player {
         if (context.cardsWhenTrash > 0) {
             int addCards = context.cardsWhenTrash;
             for (int i = 0; i < addCards; ++i) {
-                game.drawToHand(context, Cards.priest, addCards - i);
+                game.drawToHand(context, Cards.priest, addCards - i, new PlayContext());
             }
         }
 
@@ -1990,8 +1990,9 @@ public abstract class Player {
             if (player == this) continue;
             if (player.invest.contains(card)) {
                 MoveContext otherPlayerContext = new MoveContext(game, player);
+                PlayContext drawContext = new PlayContext();
                 for(int i=0; i < 2; i++) {
-                    game.drawToHand(otherPlayerContext, Cards.invest, 2 - i);
+                    game.drawToHand(otherPlayerContext, Cards.invest, 2 - i, drawContext);
                 }
             }
         }

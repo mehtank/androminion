@@ -16,14 +16,14 @@ public class CardImplHinterlands extends CardImpl {
 	protected CardImplHinterlands() { }
 
 	@Override
-    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
+        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect, playContext);
 		switch(getKind()) {
 		case Cartographer:
             cartographer(game, context, currentPlayer);
             break;
 		case Crossroads:
-            crossroads(game, context, currentPlayer);
+            crossroads(game, context, currentPlayer, playContext);
             break;
 		case Develop:
             develop(context, currentPlayer);
@@ -59,16 +59,16 @@ public class CardImplHinterlands extends CardImpl {
         	oasis(context, currentPlayer);
         	break;
         case Oracle:
-            oracle(game, context, currentPlayer);
+            oracle(game, context, currentPlayer, playContext);
             break;
 		case Scheme:
             context.schemesPlayed++;
             break;
 		case SpiceMerchant:
-            spiceMerchant(game, context, currentPlayer);
+            spiceMerchant(game, context, currentPlayer, playContext);
             break;
         case Stables:
-            stables(game, context, currentPlayer);
+            stables(game, context, currentPlayer, playContext);
             break;
         case Trader:
             trader(context, currentPlayer);
@@ -215,7 +215,7 @@ public class CardImplHinterlands extends CardImpl {
         }
     }
 	
-	private void crossroads(Game game, MoveContext context, Player currentPlayer) {
+	private void crossroads(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         int victoryCards = 0;
         for(Card c : currentPlayer.getHand()) {
             currentPlayer.reveal(c, this, context);
@@ -225,7 +225,7 @@ public class CardImplHinterlands extends CardImpl {
         }
 
         for(int i=0; i < victoryCards; i++) {
-            game.drawToHand(context, this, victoryCards - i);
+            game.drawToHand(context, this, victoryCards - i, playContext);
         }
 
         context.crossroadsPlayed += 1;
@@ -468,13 +468,13 @@ public class CardImplHinterlands extends CardImpl {
                 currentPlayer.putOnTopOfDeck(c);
             }
         }
-        
+
         int cardsToDraw = 5 - currentPlayer.hand.size();
         if (cardsToDraw > 0 && currentPlayer.getMinusOneCardToken()) {
-        	game.drawToHand(context, this, -1);
+        	game.drawToHand(context, this, -1, new PlayContext());
         }
         for (int i = 0; i < cardsToDraw; ++i) {
-        	if(!game.drawToHand(context, this, cardsToDraw - i)) {
+        	if(!game.drawToHand(context, this, cardsToDraw - i, new PlayContext())) {
                 break;
             }
         }
@@ -511,7 +511,8 @@ public class CardImplHinterlands extends CardImpl {
                 player.attacked(this, context);
                 MoveContext playerContext = new MoveContext(game, player);
                 playerContext.attackedPlayer = player;
-                game.drawToHand(playerContext, this, 1);
+                // Uses "draw" instead of "+Card"
+                game.drawToHand(playerContext, this, 1, new PlayContext());
 
                 int keepCardCount = 3;
                 if (player.hand.size() > keepCardCount) {
@@ -622,7 +623,7 @@ public class CardImplHinterlands extends CardImpl {
         }
     }
     
-    private void oracle(Game game, MoveContext context, Player currentPlayer) {
+    private void oracle(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
             if (targetPlayer == currentPlayer || !Util.isDefendedFromAttack(game, targetPlayer, this)) {
                 targetPlayer.attacked(this, context);
@@ -679,11 +680,11 @@ public class CardImplHinterlands extends CardImpl {
         }
 
         for(int i=0; i < 2; i++) {
-            game.drawToHand(context, this, 2 - i);
+            game.drawToHand(context, this, 2 - i, playContext);
         }
     }
     
-    private void spiceMerchant(Game game, MoveContext context, Player currentPlayer) {
+    private void spiceMerchant(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         boolean handContainsTreasure = false;
         for(Card c : currentPlayer.hand) {
             if(c.is(Type.Treasure, currentPlayer, context)) {
@@ -703,12 +704,12 @@ public class CardImplHinterlands extends CardImpl {
 
                     SpiceMerchantOption option = currentPlayer.controlPlayer.spiceMerchant_chooseOption(context);
                     if(option == SpiceMerchantOption.AddCardsAndAction) {
-                        game.drawToHand(context, this, 2);
-                        game.drawToHand(context, this, 1);
+                        game.drawToHand(context, this, 2, playContext);
+                        game.drawToHand(context, this, 1, playContext);
                         context.addActions(1, this);
                     }
                     else {
-                        context.addCoins(2);
+                        context.addCoins(2, this, playContext);
                         context.buys += 1;
                     }
                 }
@@ -716,7 +717,7 @@ public class CardImplHinterlands extends CardImpl {
         }
     }
     
-    private void stables(Game game, MoveContext context, Player currentPlayer) {
+    private void stables(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         boolean valid = false;
         for(Card c : currentPlayer.hand) {
             if(c.is(Type.Treasure, currentPlayer, context)) {
@@ -735,7 +736,7 @@ public class CardImplHinterlands extends CardImpl {
                 context.addActions(1, this);
 
                 for (int i = 0; i < 3; i++) {
-                    game.drawToHand(context, this, 3 - i);
+                    game.drawToHand(context, this, 3 - i, playContext);
                 }
             }
         }

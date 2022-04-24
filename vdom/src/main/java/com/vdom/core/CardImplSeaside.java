@@ -16,8 +16,8 @@ public class CardImplSeaside extends CardImpl {
 	protected CardImplSeaside() { }
 
 	@Override
-    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
+        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect, playContext);
 		switch(getKind()) {
 		case Ambassador:
             ambassador(game, context, currentPlayer);
@@ -56,10 +56,10 @@ public class CardImplSeaside extends CardImpl {
             pearlDiver(context, currentPlayer);
             break;
 		case PirateShip:
-            pirateShip(game, context, currentPlayer);
+            pirateShip(game, context, currentPlayer, playContext);
             break;
 		case Salvager:
-            salvager(context, currentPlayer);
+            salvager(context, currentPlayer, playContext);
             break;
 		case SeaHag:
             seaHag(game, context, currentPlayer);
@@ -426,7 +426,7 @@ public class CardImplSeaside extends CardImpl {
         }
     }
     
-    private void pirateShip(Game game, MoveContext context, Player currentPlayer) {
+    private void pirateShip(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         ArrayList<Player> playersToAttack = new ArrayList<Player>();
         for (Player targetPlayer : game.getPlayersInTurnOrder()) {
             if (targetPlayer != currentPlayer && !Util.isDefendedFromAttack(game, targetPlayer, this)) {
@@ -436,7 +436,7 @@ public class CardImplSeaside extends CardImpl {
         }
 
         if (currentPlayer.controlPlayer.pirateShip_takeTreasure(context)) {
-            takePirateShipTreasure(context);
+            takePirateShipTreasure(context, playContext);
         } else {
             boolean treasureFound = false;
             for (Player targetPlayer : playersToAttack) {
@@ -493,7 +493,7 @@ public class CardImplSeaside extends CardImpl {
         }
     }
     
-    private void salvager(MoveContext context, Player currentPlayer) {
+    private void salvager(MoveContext context, Player currentPlayer, PlayContext playContext) {
         if (currentPlayer.hand.size() == 0) {
             return;
         }
@@ -506,7 +506,7 @@ public class CardImplSeaside extends CardImpl {
         }
 
         currentPlayer.trashFromHand(card, this, context);
-        context.addCoins(card.getCost(context));
+        context.addCoins(card.getCost(context), this, playContext);
     }
     
     private void seaHag(Game game, MoveContext context, Player currentPlayer) {
@@ -623,7 +623,7 @@ public class CardImplSeaside extends CardImpl {
         (player).pirateShipTreasure++;
     }
 
-    protected void takePirateShipTreasure(MoveContext context) {
-        context.addCoins(context.getPlayer().pirateShipTreasure);
+    protected void takePirateShipTreasure(MoveContext context, PlayContext playContext) {
+        context.addCoins(context.getPlayer().pirateShipTreasure, this, playContext);
     }
 }

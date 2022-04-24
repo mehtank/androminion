@@ -731,11 +731,11 @@ public class CardImpl implements Card, Comparable<Card>{
 
     @Override
     public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-        followInstructions(game, context, responsible, currentPlayer, isThronedEffect, false);
+        followInstructions(game, context, responsible, currentPlayer, isThronedEffect, new PlayContext());
     }
 
     @Override
-    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, boolean usingChameleon) {
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
         //Events for Boon/Hex
         //TODO: !(is(Type.State) || is(Type.Project) || is(Type.State) || is(Type.Artifact))
         //TODO: What event to fire for other instructions on non-boon/hex abilities (e.g. Key)?
@@ -751,7 +751,7 @@ public class CardImpl implements Card, Comparable<Card>{
         //Standardized instructions
         //+Card
         for (int i = 0; i < addCards; ++i) {
-            game.drawToHand(context, this, addCards - i);
+            game.drawToHand(context, this, addCards - i, playContext);
         }
         //+Action
         context.addActions(addActions, this);
@@ -759,11 +759,11 @@ public class CardImpl implements Card, Comparable<Card>{
         context.buys += addBuys;
         //+Coin
         if (this.equals(Cards.copper)) {
-            context.addCoins(addGold + context.coppersmithsPlayed);
+            context.addCoins(addGold + context.coppersmithsPlayed, responsible, playContext);
         } else if (this.equals(Cards.silver) || this.equals(Cards.gold)) {
-            context.addCoins(context.envious ? 1 : addGold);
+            context.addCoins(context.envious ? 1 : addGold, responsible, playContext);
         } else {
-            context.addCoins(addGold);
+            context.addCoins(addGold, responsible, playContext);
         }
         //+Potion
         if (providePotion()) {
@@ -853,7 +853,7 @@ public class CardImpl implements Card, Comparable<Card>{
         if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneCoin))
         	context.addCoins(1);
         if (game.isPlayerSupplyTokenOnPile(tokenPile, currentPlayer, PlayerSupplyToken.PlusOneCard))
-        	game.drawToHand(context, this, 1 + addCards);
+        	game.drawToHand(context, this, 1 + addCards, new PlayContext());
         
         Card playUsingWay = selectWayToPlay(context, this);
         
@@ -873,7 +873,7 @@ public class CardImpl implements Card, Comparable<Card>{
 	            }
         	}
         	context.addActions(1, Cards.enchantress);
-        	game.drawToHand(context, this, 1);
+        	game.drawToHand(context, this, 1, new PlayContext());
         } else {
         	followInstructions(game, context, this, currentPlayer, isThronedPlay);
         }
@@ -1211,7 +1211,8 @@ public class CardImpl implements Card, Comparable<Card>{
     protected void silverPlayed(MoveContext context, Game game, Player player) {
     	context.silversPlayed += 1;
     	if (context.silversPlayed == 1) {
-    		context.addCoins(context.merchantsPlayed);
+    		context.addCoins(context.merchantsPlayedCoins);
+    		game.drawToHand(context, Cards.merchant, 1, new PlayContext());
     	}
     	int saunasInPlay = context.countCardsInPlay(Cards.sauna);
     	for (int i = 0; i < saunasInPlay; ++i) {

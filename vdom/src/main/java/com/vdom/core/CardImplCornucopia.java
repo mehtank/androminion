@@ -22,8 +22,8 @@ public class CardImplCornucopia extends CardImpl {
 	protected CardImplCornucopia() { }
 
 	@Override
-    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
+        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect, playContext);
 		switch(getKind()) {
 		case BagofGold:
             currentPlayer.gainNewCard(Cards.gold, this, context);
@@ -44,7 +44,7 @@ public class CardImplCornucopia extends CardImpl {
             hamlet(context, currentPlayer);
             break;
         case Harvest:
-            harvest(game, context, currentPlayer);
+            harvest(game, context, currentPlayer, playContext);
             break;
         case HornofPlenty:
         	hornOfPlenty(context, currentPlayer, game);
@@ -59,16 +59,16 @@ public class CardImplCornucopia extends CardImpl {
             jester(game, context, currentPlayer);
             break;
         case Menagerie:
-            menagerie(game, context, currentPlayer);
+            menagerie(game, context, currentPlayer, playContext);
             break;
         case Remake:
             remake(context, currentPlayer);
             break;
         case Tournament:
-            tournament(game, context, currentPlayer);
+            tournament(game, context, currentPlayer, playContext);
             break;
         case TrustySteed:
-            trustySteed(game, context, currentPlayer);
+            trustySteed(game, context, currentPlayer, playContext);
             break;
         case YoungWitch:
             youngwitch(game, context, currentPlayer);
@@ -169,7 +169,7 @@ public class CardImplCornucopia extends CardImpl {
         }
     }
 
-    private void harvest(Game game, MoveContext context, Player currentPlayer) {
+    private void harvest(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         HashSet<String> cardNames = new HashSet<String>();
         List<Card> cardToDiscard = new ArrayList<Card>();
         for (int i = 0; i < 4; i++) {
@@ -186,7 +186,7 @@ public class CardImplCornucopia extends CardImpl {
             currentPlayer.discard(c, this, context);
         }
 
-        context.addCoins(cardNames.size());
+        context.addCoins(cardNames.size(), this, playContext);
     }
     
     private void hornOfPlenty(MoveContext context, Player player, Game game) {
@@ -269,7 +269,7 @@ public class CardImplCornucopia extends CardImpl {
         }
     }
     
-    private void menagerie(Game game, MoveContext context, Player currentPlayer) {
+    private void menagerie(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         HashSet<String> cardNames = new HashSet<String>();
         boolean distinct = true;
 
@@ -281,7 +281,7 @@ public class CardImplCornucopia extends CardImpl {
 
         int numCards = distinct ? 3 : 1;
         for (int i = 0; i < numCards; i++) {
-            game.drawToHand(context, this, numCards - i);
+            game.drawToHand(context, this, numCards - i, playContext);
         }
     }
 
@@ -315,7 +315,7 @@ public class CardImplCornucopia extends CardImpl {
         }
     }
     
-    private void tournament(Game game, MoveContext context, Player currentPlayer) {
+    private void tournament(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         boolean opponentsRevealedProvince = false;
         boolean currentPlayerRevealed = false;
 
@@ -365,12 +365,12 @@ public class CardImplCornucopia extends CardImpl {
         }
 
         if (!opponentsRevealedProvince) {
-        	game.drawToHand(context, this, 1);
-            context.addCoins(1);
+        	game.drawToHand(context, this, 1, playContext);
+            context.addCoins(1, this, playContext);
         }
     }
 
-    private void trustySteed(Game game, MoveContext context, Player currentPlayer) {
+    private void trustySteed(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         TrustySteedOption[] options = currentPlayer.controlPlayer.trustySteed_chooseOptions(context);
         if (options == null || options.length != 2 || options[0] == options[1]) {
             Util.playerError(currentPlayer, "Trusty Steed options error, ignoring.");
@@ -382,10 +382,10 @@ public class CardImplCornucopia extends CardImpl {
                     context.addActions(2, this);
                 } else if (option == TrustySteedOption.AddCards) {
                     for (int i = 0; i < 2; i++) {
-                        game.drawToHand(context, this, 2 - i);
+                        game.drawToHand(context, this, 2 - i, playContext);
                     }
                 } else if (option == TrustySteedOption.AddGold) {
-                    context.addCoins(2);
+                    context.addCoins(2, this, playContext);
                 } else if (option == TrustySteedOption.GainSilvers) {
                     for (int i = 0; i < 4; i++) {
                         if(currentPlayer.gainNewCard(Cards.silver, this, context) == null) {

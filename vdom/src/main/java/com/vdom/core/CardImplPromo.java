@@ -17,8 +17,8 @@ public class CardImplPromo extends CardImpl {
 	protected CardImplPromo() { }
 
 	@Override
-    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect) {
-        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect);
+    public void followInstructions(Game game, MoveContext context, Card responsible, Player currentPlayer, boolean isThronedEffect, PlayContext playContext) {
+        super.followInstructions(game, context, responsible, currentPlayer, isThronedEffect, playContext);
 		switch(getKind()) {
 		case Avanto:
 			avanto(game, context, currentPlayer);
@@ -39,7 +39,7 @@ public class CardImplPromo extends CardImpl {
             envoy(game, context, currentPlayer);
             break;
 		case Governor:
-            governor(game, context, currentPlayer);
+            governor(game, context, currentPlayer, playContext);
             break;
 		case Prince:
             prince(game, context, currentPlayer, isThronedEffect);
@@ -294,19 +294,19 @@ public class CardImplPromo extends CardImpl {
         }
     }
 	
-	private void governor(Game game, MoveContext context, Player currentPlayer) {
+	private void governor(Game game, MoveContext context, Player currentPlayer, PlayContext playContext) {
         Player.GovernorOption option = currentPlayer.controlPlayer.governor_chooseOption(context);
 
         if (option == null) {
             Util.playerError(currentPlayer, "Governor option error, ignoring.");
         } else {
             if (option == Player.GovernorOption.AddCards) {
-                game.drawToHand(context, this, 3);
-                game.drawToHand(context, this, 2);
-                game.drawToHand(context, this, 1);
+                game.drawToHand(context, this, 3, playContext);
+                game.drawToHand(context, this, 2, playContext);
+                game.drawToHand(context, this, 1, playContext);
                 for (Player player : game.getPlayersInTurnOrder()) {
                     if (player != context.getPlayer()) {
-                        game.drawToHand(new MoveContext(game, player), this, 1);
+                        game.drawToHand(new MoveContext(game, player), this, 1, playContext);
                     }
                 }
             } else if (option == Player.GovernorOption.GainTreasure) {
