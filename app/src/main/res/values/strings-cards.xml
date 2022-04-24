@@ -1084,7 +1084,7 @@
     <string name="Goatherd_name">Goatherd</string>
     <string name="Goatherd_desc">You may trash a card from your hand. +1 Card per card the player to your right trashed on their last turn.</string>
     <string name="Groom_name">Groom</string>
-    <string name="Groom_desc">Gain a card costing up to $4 If it\'s an&#8230;\n Action card, gain a Horse;\n Treasure card, gain a Silver;\n Victory card, +1 Card and +1 Action.</string>
+    <string name="Groom_desc">Gain a card costing up to $4. If it\'s an&#8230;\n Action card, gain a Horse;\n Treasure card, gain a Silver;\n Victory card, +1 Card and +1 Action.</string>
     <string name="Hostelry_name">Hostelry</string>
     <string name="Hostelry_desc">—\nWhen you gain this, you may discard any number of Treasures, revealed, to gain that many Horses.</string>
     <string name="HuntingLodge_name">Hunting Lodge</string>
@@ -1102,7 +1102,7 @@
     <string name="Scrap_name">Scrap</string>
     <string name="Scrap_desc">Trash a card from your hand. Choose a different thing per $1 it costs: +1 Card; +1 Action; +1 Buy; +$1; gain a Silver; gain a Horse.</string>
     <string name="Sheepdog_name">Sheepdog</string>
-    <string name="Sheepdog_desc">When you gain a card, you may play this from your hand.</string>
+    <string name="Sheepdog_desc">—\nWhen you gain a card, you may play this from your hand.</string>
     <string name="Sleigh_name">Sleigh</string>
     <string name="Sleigh_desc">Gain 2 Horses.\n—\nWhen you gain a card, you may discard this, to put that card into your hand or onto your deck.</string>
     <string name="SnowyVillage_name">Snowy Village</string>
@@ -1112,9 +1112,9 @@
     <string name="Supplies_name">Supplies</string>
     <string name="Supplies_desc">When you play this, gain a Horse onto your deck.</string>
     <string name="VillageGreen_name">Village Green</string>
-    <string name="VillageGreen_desc">Either now or at the start of your next turn, +1 Card and +2 Actions. — When you discard this other than during Clean-up, you may play it.</string>
+    <string name="VillageGreen_desc">Either now or at the start of your next turn, +1 Card and +2 Actions.\n—\nWhen you discard this other than during Clean-up, you may play it.</string>
     <string name="Wayfarer_name">Wayfarer</string>
-    <string name="Wayfarer_desc">You may gain a Silver. — This has the same cost as the last other card gained this turn, if any.</string>
+    <string name="Wayfarer_desc">You may gain a Silver.\n—\nThis has the same cost as the last other card gained this turn, if any.</string>
     
     <string name="Horse_name">Horse</string>
     <string name="Horse_desc">Return this to its pile. (This is not in the Supply.)</string>
