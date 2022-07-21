@@ -10,6 +10,7 @@
     <string name="stats_menu">Statistiques</string>
     <string name="settings_menu">Paramètres</string>
     <string name="about_menu">À propos</string>
+    <string name="rules_menu">Comment jouer</string>
     <string name="help_menu">Aide</string>
     <string name="quit_menu">Quitter</string>
 
@@ -43,9 +44,9 @@
 		Source: <a href="https://code.google.com/p/androminion/issues/detail?id=582">https://code.google.com/p/androminion/issues/detail?id=582</a><br>
 	]]>
         </string>
-        <string name="whatsnew_menu">Nouveautés </string>
-        <string name="whatsnew_title">Nouveautés: </string>
-        <string name="whatsnew">
+    <string name="whatsnew_menu">Nouveautés </string>
+    <string name="whatsnew_title">Nouveautés: </string>
+    <string name="whatsnew">
         <![CDATA[
 		<h3>Lisez SVP!</h3>
 		 À la demande de Rio Grande Games, l\'éditeur de Dominion, nous avons retiré Androminion du Play Store. S\'il vous plaît, ne le publiez dans aucun store public d\'applications car il y a déjà une application officielle.<br><br>
@@ -124,6 +125,8 @@
     <string name="game_type_preset">Présélection</string>
     <string name="game_type_last">Dernière jouée</string>
     <string name="game_type_specified">Cartes spécifiées</string>
+    <string name="select_non_kingdom_cards">Cartes autre que Royaume:</string>
+    <string name="random_non_kingdom_default">Défaut</string>
     <string name="random_all_cards">Toutes les cartes</string>
     <string name="include_platinum_colony">Platine/Colonie: </string>
     <string name="include_shelters">Refuges: </string>
@@ -131,10 +134,28 @@
     <string name="include_cards_yes">Utiliser</string>
     <string name="include_cards_no">Ne pas utiliser</string>
     <string name="include_cards_percent">%1$s%% de chance</string>
-    <string name="random_include_events">Cartes événements: </string>
-    <string name="random_events_none">Aucune</string>
-    <string name="random_include_landmarks">Jalons: </string>
+    <string name="random_events_projects_landmarks">Événements, Projets, Jalons et Voies</string>
+    <string name="combine_sideways_cards">Nombre total</string>
+    <string name="random_sideways_cards_amount">Nombre: </string>
+    <string name="keep_sideways_cards_with_expansion">Conserver avec l\'extension d\'origine</string>
+    <string name="random_include_events">Événements: </string>
+    <string name="random_sideways_none">Aucun</string>
+    <string name="random_events_none">Aucun</string>
+    <string name="random_projects_none">Aucun</string>
     <string name="random_landmarks_none">Aucun</string>
+    <string name="random_ways_none">Aucune</string>
+    <string name="random_sideways_max_x">Jusqu\'à %1$s</string>
+    <string name="random_include_projects">Projets: </string>
+    <string name="random_include_landmarks">Jalons: </string>
+    <string name="random_include_ways">Voies: </string>
+    <string name="select_kingdom_cards">Cartes Royaume de: </string>
+    <string name="random_expansions">Extensions</string>
+    <string name="random_expansions_select_all">Tout sélectionner</string>
+    <string name="random_expansions_select_x">%1$s</string>
+    <string name="random_choose_from_expansions">Choisir:</string>
+    <string name="random_expansion_allocation_random" tools:ignore="UnusedResources">Au hasard</string>
+    <string name="random_expansion_allocation_even" tools:ignore="UnusedResources">Uniformément</string>
+    <string name="random_expansion_allocation_proportional" tools:ignore="UnusedResources">Proportionnellement</string>
     <string name="select_players">Sélectionner les joueurs:</string>
 	<string name="random_players">Aléatoires</string>
 	<string name="probability_2_players">Probabilité 2 joueurs</string>
@@ -147,14 +168,16 @@
     <string name="card_set_cards">Cartes: %1$s</string>
     <string name="card_set_bane">Fléau: %1$s</string>
     <string name="card_set_events">Événements: %1$s</string>
+    <string name="card_set_projects">Projets: %1$s</string>
     <string name="card_set_landmarks">Jalons: %1$s</string>
+    <string name="card_set_ways">Voies: %1$s</string>
     <string name="card_set_plat_colony">Platine/Colonie</string>
     <string name="card_set_no_plat_colony">Pas de Platine/Colonie</string>
     <string name="card_set_shelters">Refuges</string>
     <string name="card_set_no_shelters">Pas de Refuge</string>
     <string name="card_set_card_options">%1$s (%2$s)</string>
     <string name="none_game_start">Aucun</string>
-    
+
     <!-- Game Activity: Splash Screen -->
     <string name="splash">Utilisez le menu pour commencer une nouvelle partie, ou, pendant une partie, pour afficher l\'aide sur la façon de jouer.</string>
 
@@ -178,6 +201,7 @@
     <string name="keep_button">Garder</string>
     <string name="give_button">Donner</string>
     <string name="trash_button">Écarter</string>
+    <string name="exile_button">Exiler</string>
     <string name="upgrade_button">Améliorer</string>
     <string name="mint_button">Copier</string>
     <string name="swindle_button">Escroquer</string>
@@ -185,12 +209,14 @@
     <string name="hand_header">Main:</string>
     <string name="played_header">Joué:</string>
     <string name="tavern_header">Taverne:</string>
+    <string name="exile_header">Exil:</string>
     <string name="archive_header">Archives:</string>
     <string name="crypt_header">Crypte:</string>
     <string name="island_header">Île:</string>
     <string name="village_header">Village:</string>
     <string name="prince_header">Prince:</string>
     <string name="turn_header">: Tour\u0020</string>
+    <string name="turn_header_fleet">\u0020[Flotte]</string>
     <string name="game_loaded" tools:ignore="TypographyOther">Jeu chargé!\nActions, achats et pièces\ndisponibles sont affichés\ndans la log comme a/b/(c)</string>
     <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
     <string name="action_zero">%1$s action</string>
@@ -211,13 +237,18 @@
     <string name="trash_header">Rebut:</string>
     <string name="blackMarket_header">Marché noir:</string>
     <string name="inheritance_header">Héritage:</string>
-        <string name="journey_token_initial">\u0020\u0020V\u0020\u0020</string>
+	<string name="journey_token_initial">\u0020\u0020V\u0020\u0020</string>
 	<string name="token_plus_one_action_initial">A</string>
 	<string name="token_plus_one_buy_initial">H</string>
 	<string name="deluded_initial">\u0020\u0020E\u0020\u0020</string>
 	<string name="envious_initial">\u0020\u0020J\u0020\u0020</string>
 	<string name="lostInTheWoods_initial">\u0020\u0020P\u0020\u0020</string>
 	<string name="druid_boons_header">- Aubaines mises de côté -</string>
+	<string name="flag_initial">\u0020\u0020\u2691\u0020\u0020</string>
+	<string name="horn_initial">\u0020\u0020H\u0020\u0020</string>
+	<string name="key_initial">\u0020\u0020K\u0020\u0020</string>
+	<string name="lantern_initial">\u0020\u0020L\u0020\u0020</string>
+	<string name="treasureChest_initial">\u0020\u0020T\u0020\u0020</string>
 	<string name="token_header">- Jetons -</string>
 	<string name="token_plus_one_card">+1 Carte</string>
 	<string name="token_plus_one_action">+1 Action</string>
@@ -225,6 +256,7 @@
 	<string name="token_plus_one_coin">+1 Pièce</string>
 	<string name="token_minus_2_cost">Coût -2</string>
 	<string name="token_trashing">Au rebut</string>
+	<string name="token_projectCube">Projet cube</string>
 	<string name="token_colon">:\u0020</string>
 	<string name="token_separator">,\u0020</string>
 	<string name="token_embargo">Embargos</string>
@@ -240,6 +272,7 @@
 	<string name="status_hand_size">Cartes en main: %1$s</string>
 	<string name="status_hand_stashes">Cartes Cachette en main: %1$s</string>
 	<string name="status_total_cards">Total de cartes: %1$s</string>
+	<string name="status_vp">Points Victoire: %1$s</string>
 	<string name="status_has_minus_coin_token">A un jeton -1 Pièce</string>
 	<string name="status_has_minus_card_token">A un jeton -1 Carte</string>
 	<string name="status_journey_token_up">Le jeton Voyage est face visible</string>
@@ -249,9 +282,68 @@
 	<string name="status_has_lostInTheWoods">Est Perdu dans les Bois (Au début de votre tour, vous pouvez défausser une carte pour recevoir une Aubaine.)</string>
 	<string name="status_has_miserable">Est En détresse (-2 PVs)</string>
 	<string name="status_has_twiceMiserable">Est En grande détresse (-4 PVs)</string>
+	<string name="status_has_flag">Quand vous piochez votre main, +1 Carte.</string>
+	<string name="status_has_horn">A la Corne (Une fois par tour, quand vous défaussez une Garde-frontière de la zone de jeu, vous pouvez la replacer sur votre pioche.)</string>
+	<string name="status_has_key">A la Clé (Au début de votre prochain tour, +$1.)</string>
+	<string name="status_has_lantern">A la Lanterne (Les Gardes-frontières que vous jouez dévoilent 3 cartes et en défaussent 2.)</string>
+	<string name="status_has_treasureChest">A le Coffre au Trésor (Au début de votre phase Achat, recevez un Or.)</string>
 	<string name="status_coin_tokens">Jetons Pièce: %1$s</string>
+	<string name="status_villager_tokens">Villageois: %1$s</string>
+	<string name="way_of_the_mouse_card_header">- Carte mise de côté -</string>
 	<string name="status_pirate_tokens">Jetons Pièces du Bateau Pirate: %1$s</string>
 	<string name="status_debt_tokens">Jetons Dette: %1$s</string>
 	<string name="status_victory_tokens">Jetons Victoire: %1$s</string>
 	<string name="card_more_info">Plus d\'info</string>
+	
+	<string name="rules_title">Comment Jouer</string>
+	<string name="rules_official">Règles officielles</string>
+	<string name="rules">
+<![CDATA[
+<h3>Aperçu</h3>
+<p>Dominion est un jeu de deck-building dans lequel les joueurs commencent avec un jeu de cartes simples et s\'affrontent pour obtenir le plus de PV (points Victoire) à la fin du jeu, généralement en achetant de meilleures cartes et en supprimant les cartes inutiles de leur jeu.</ p>
+<p>Chaque jeu a une <b>Réserve</b> composée d\'au moins les 3 piles de cartes Trésor et Victoire de base et les Malédictions. Il y a également 10 piles de cartes Royaume différentes dans la réserve ; celle-ci sont différentes à chaque partie. Chacune a des capacités uniques qui changent le jeu. Vous pouvez acheter ou recevoir des cartes de la réserve à chaque tour en utilisant les cartes que vous jouez.</p>
+<p>Les cartes reçues sont ajoutées à votre pile de défausse. Votre pile de défausse est mélangée dans votre deck (pioche) lorsqu\'elle est vide et que vous en avez besoin de cartes. Cela fait passer vos nouvelles cartes dans votre deck en expansion.</p>
+<h3>Jeu</h3>
+<p>Chaque joueur commence généralement avec 7 cartes Cuivre et 3 cartes Domaine mélangées dans son deck et en pioche 5 dans sa main pour commencer. Un joueur au hasard prend le premier tour.</p>
+<p>Chaque tour se compose de trois phases : Action, Achat et Nettoyage (ABC). Un joueur commence chaque tour avec 0 $ (Pièces), 1 Action et 1 Achat.</p>
+<p><b>Phase Action :</b> vous pouvez jouer 1 carte Action de votre main pour suivre ses instructions. Celles-ci forment souvent l\'essentiel de la stratégie dans un jeu donné ; voyez comment vous pouvez les amener à créer une synergie pour gagner. Certaines cartes accordent des Actions supplémentaires qui vous permettront de jouer plus de cartes Action. (Les instructions sous une ligne de séparation se produisent à un moment différent ; suivez-les lorsqu\'elles sont indiquées).</p>
+<p><b>Phase d\'achat :</b> vous jouez d\'abord les cartes Trésor souhaitées de votre main ; celle-ci vous donnent généralement $* à dépenser ce tour. Ensuite, vous pouvez acheter une carte de la réserve coûtant jusqu\'au $* dont vous disposez. Si vous avez des achats + supplémentaires et suffisamment de $*, vous pouvez acheter plus de cartes. Vous pouvez également acheter des événements ou des projets lorsqu\'ils sont présents.</p>
+<p><b>Phase de nettoyage :</b> vous défaussez toutes les cartes restantes de votre main et les cartes appropriées du jeu, puis piochez 5 cartes de votre deck pour votre prochain tour.</p>
+<p>La <b>partie se termine</b> après un tour où la pile Province ou Colonie est vide ou 3 piles de ravitaillement au total (4 dans une partie à 5-6 joueurs). Les égalités vont au joueur avec le moins de tours (les tours supplémentaires ne comptent pas).</p>
+<h3>Autres types de cartes</h3>
+<p><b>Les cartes Victoire</b> valent des PV. Habituellement, gagner les cartes les plus élevées vous fera gagner. Ils obstruent souvent votre deck, alors planifiez en conséquence. Vous pouvez également obtenir des points avec les jetons PV fournis par certains effets.</p>
+Les cartes <p><b>Malédiction</b> valent -1 point chacune et sont généralement distribuées par certaines cartes Attaque. Vous voudrez souvent vous débarrasser des malédictions si vous devez les gagner.</p>
+<i>Remarque :</i> Les cartes avec plusieurs types (par exemple, Trésor - Victoire) comptent comme tous ces types individuellement.
+Les cartes <p><b>Durée</b> peuvent faire quelque chose dans les tours futurs. Ils restent en jeu lorsqu\'ils sont encore utilisés au lieu d\'être nettoyés (ainsi que les cartes qui les jouent plusieurs fois).</p>
+Les cartes <p><b>Réaction</b> peuvent être utilisées à des moments inhabituels pour certains effets, comme atténuer les Attaques.</p>
+Les cartes <p><b>Nuit</b> ajoutent une phase Nuit après votre phase d\'achat dans laquelle vous pouvez jouer toutes les cartes Nuit souhaitées de votre main.</p>
+<p><b>Les cartes de réserve</b> vont sur votre plateau Taverne et peuvent généralement être rappelées en jeu plus tard à partir de celui-ci pour un effet.<p>
+<p><i>Remarque :</i> Les autres types de cartes ne font que les étiqueter et n\'ont pas de règles spéciales.</p>
+<h3>Cartes Paysage</h3>
+<p><b>Les événements</b> peuvent être achetés pour fournir un effet immédiat. Ils ne sont ni gagnés ni ajoutés à votre deck.</p>
+<p><b>Jalons</b> ajoutent des règles de notation supplémentaires.</p>
+<p><b>Les projets</b> accordent une capacité à long terme lorsqu\'ils sont achetés en plaçant l\'un de vos 2 cubes Projet ; ils ne peuvent être achetés qu\'une seule fois par joueur.</p>
+<p><b>Les Voies</b> fournissent des instructions alternatives lorsque vous jouez des cartes Action.</p>
+<h3>Autres terme</h3>
+<p><b>Écarter</b> des cartes les déplacent vers la pile de Rebut partagée ; vous ne les avez plus, mais ils sont hors de votre deck. Souvent, vous voudrez jeter au moins certaines de vos cartes de départ pour voir vos meilleures cartes plus souvent.</p>
+<p><b>+X Actions ; +X Achats ; +$* :</b> Obtenez plus de cette ressource.</p>
+<p><b>+X Cartes :</b> Piochez X cartes de votre deck dans votre main.</p>
+<p><b>Recevoir :</b> Déplacez la carte vers votre pile de défausse. C\'est à vous maintenant. Les cartes achetées sont gagnées après l\'achat.</p>
+<p><b>+X coffres :</b> obtenez X jetons qui peuvent être conservés ou convertis en $* plus tard pendant votre phase d\'achat (avant l\'achat).</p>
+<p><b>+X Villageois :</b> Obtenez X jetons qui peuvent être conservés ou convertis plus tard en +Actions pendant votre phase d\'Action.</p>
+<p><b>Les cartes Exilées</b> vont sur le plateau Exil de chaque joueur. Vous pouvez défausser toutes les copies correspondantes sur la vôtre lorsque vous gagnez une carte.</p>
+<p><b>L\'échange de cartes</b> vous permet d\'obtenir une carte à la place d\'une autre, qui est remise dans la réserve.</p>
+<p>Certaines choses coûtent <b>des dettes</b>. Les coûts de la dette sont payés en prenant des jetons Dette ; ceux-ci vous empêchent d\'acheter tant qu\'ils ne sont pas payés.</p>
+<p><b>Les aubaines</b> sont de petits effets bénéfiques aléatoires provenant d\'un jeu mélangé de 12. <b>Les sorts</b> sont de la même manière de mauvais effets.</li></p>
+<h3>Cartes supplémentaires</h3>
+<p>Les cartes <b>Colonie</b> et <b>Platine</b> sont ajoutées à la Réserve à des moments généralement proportionnels au nombre de piles de cartes Prosperity Kingdom utilisées. Ce sont des cartes Victoire et Trésor de base plus chères. <i>(de Prospérité)</i></p>
+<p>Les cartes <b>Potion</b> sont ajoutées à la Réserve lorsqu\'une carte avec une potion dans son coût est utilisée. Ce sont des trésors qui fournissent les potions nécessaires pour acheter ces cartes (souvent en plus de $*). <i>(de Alchimie)</i></p>
+<p><b>Ruines</b> sont ajoutées à la réserve lorsqu\'une carte Pilleur est en jeu. Chacune est l\'une des 5 cartes généralement mauvaises, similaires aux Malédictions. <i>(de L\'Âge des Ténèbres)</i></p>
+<h3>Cartes de départ alternatives</h3>
+Les <p><b>refuges</b> remplacent les domaines de départ lorsque vous le souhaitez, généralement en proportion du nombre de piles de cartes Dark Ages Kingdom utilisées. <i>(de L\'Âge des Ténèbres)</i></p>
+<p><b>Les héritages</b> remplacent chacun un Cuivre de départ chaque fois que sa carte Royaume correspondante est utilisée. <i>(de Nocturne)</i></p>
+<h3>Plus d\'informations</h3>
+	]]>
+    </string>
+	
 </resources>
