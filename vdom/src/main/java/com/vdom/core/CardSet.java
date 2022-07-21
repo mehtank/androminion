@@ -130,17 +130,6 @@ public class CardSet {
 		this.druidBoons = druidBoons != null ? Arrays.asList(druidBoons) : null;
 		this.wayOfTheMouseCard = wayOfTheMouseCard;
 	}
-	
-	public CardSet(final Card[] cardsArray, final Card baneCard, UseOptionalCards usePlatColony, UseOptionalCards useShelters, Card obelisk, Card[] druidBoons) {
-		this.cards = Arrays.asList(cardsArray);
-		this.baneCard = baneCard;
-		this.isRandom = false;
-		this.usePlatColony = usePlatColony;
-		this.useShelters = useShelters;
-		this.obelisk = obelisk;
-		this.druidBoons = null;
-		this.wayOfTheMouseCard = null;
-	}
 
 	private CardSet(final List<Card> cards, final boolean isRandom) {
 		this.cards = cards;
@@ -278,6 +267,7 @@ public class CardSet {
 		if (count < 0) {
 			count = DEFAULT_KINGDOM_CARDS;
 			findBaneIfNeeded = true;
+			findWayOfTheMouseIfNeeded = true;
 		}
 		
 		ArrayList<Card> possibleCards = new ArrayList<Card>();
@@ -340,22 +330,7 @@ public class CardSet {
 				baneCard = swapOutBaneCard(cardSetList, possibleCards);
 			}
 		}
-		
-		// pick a Way of the Mouse card if needed
-		if (findWayOfTheMouseIfNeeded && cardSetList.contains(Cards.wayOfTheMouse)) {
-			for (Card c : possibleCards) {
-				if (cardSetList.contains(c))
-					continue;
-	            if (isValidWayOfTheMouseCard(c)) {
-	            	wayOfTheMouseCard = c;
-				}
-			}
-			if (wayOfTheMouseCard == null) {
-				wayOfTheMouseCard = swapOutWayOfTheMouseCard(cardSetList, possibleCards);
-			}
-		}
-		
-		
+
 		// Do sideways cards
 		List<Card> possibleEventCards = new ArrayList<Card>();
 		List<Card> possibleProjectCards = new ArrayList<Card>();
@@ -396,7 +371,21 @@ public class CardSet {
 			shuffleAndAddFromList(cardSetList, possibleLandmarkCards, numLandmarks);
 			shuffleAndAddFromList(cardSetList, possibleWayCards, numWays);
 		}
-		
+
+		// pick a Way of the Mouse card if needed
+		if (findWayOfTheMouseIfNeeded && cardSetList.contains(Cards.wayOfTheMouse)) {
+			for (Card c : possibleCards) {
+				if (cardSetList.contains(c))
+					continue;
+				if (isValidWayOfTheMouseCard(c)) {
+					wayOfTheMouseCard = c;
+				}
+			}
+			if (wayOfTheMouseCard == null) {
+				wayOfTheMouseCard = swapOutWayOfTheMouseCard(cardSetList, possibleCards);
+			}
+		}
+
 		return new CardSet(cardSetList, baneCard, wayOfTheMouseCard);
 	}
 
@@ -502,23 +491,23 @@ public class CardSet {
 				baneCard = swapOutBaneCard(cardSetList, possibleCards);
 			}
 		}
-		
+
+		cardSetList.addAll(sidewaysCards);
+
 		// pick a Way of the Mouse card if needed
 		if (findWayOfTheMouseIfNeeded && cardSetList.contains(Cards.wayOfTheMouse)) {
 			for (Card c : possibleCards) {
 				if (cardSetList.contains(c))
 					continue;
-	            if (isValidWayOfTheMouseCard(c)) {
-	            	wayOfTheMouseCard = c;
+				if (isValidWayOfTheMouseCard(c)) {
+					wayOfTheMouseCard = c;
 				}
 			}
 			if (wayOfTheMouseCard == null) {
 				wayOfTheMouseCard = swapOutWayOfTheMouseCard(cardSetList, possibleCards);
 			}
 		}
-		
-		cardSetList.addAll(sidewaysCards);
-		
+
 		return new CardSet(cardSetList, baneCard, wayOfTheMouseCard);
 	}
 	
