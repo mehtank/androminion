@@ -785,7 +785,7 @@ public class GameActivity extends AppCompatActivity implements EventHandler {
 		for (MyCard c : cards) {
 			// TODO: skip non-kingdom cards (but include shelters? &&
 			// colony/plat && landmarks && events)
-			edit.putString("LastCard" + i++, (c.isBane ? Game.BANE : "") + (c.isObeliskCard ? Game.OBELISK : "") + (c.isBlackMarket ? Game.BLACKMARKET : "") + c.originalSafeName);
+			edit.putString("LastCard" + i++, (c.isBane ? Game.BANE : "") + (c.isWayOfTheMouseCard ? Game.WAY_OF_THE_MOUSE : "") + (c.isObeliskCard ? Game.OBELISK : "") + (c.isBlackMarket ? Game.BLACKMARKET : "") + c.originalSafeName);
 		}
 		i = 0;
 		if (druidBoons != null && druidBoons.size() > 0) {

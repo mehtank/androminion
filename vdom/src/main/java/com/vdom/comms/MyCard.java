@@ -35,6 +35,7 @@ public class MyCard implements Serializable {
 	public boolean isPrize    = false;
 	public boolean isPotion   = false;
 	public boolean isBane     = false;
+	public boolean isWayOfTheMouseCard = false;
 	public boolean isObeliskCard  = false;
 	public boolean isShelter  = false;
 	public boolean isRuins    = false;

@@ -901,6 +901,9 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
         if (state.c.isBane) {
             text += getContext().getString(R.string.bane_card);
         }
+        if (state.c.isWayOfTheMouseCard) {
+            text += getContext().getString(R.string.way_of_the_mouse_card);
+        }
         if (state.c.isObeliskCard) {
             if (text.length() > 0)
                 text += "\n";
@@ -922,11 +925,6 @@ public class CardView extends FrameLayout implements OnLongClickListener, Checka
             text += getContext().getString(R.string.way_of_the_mouse_card_header);
             text += "\n";
             text += Strings.getCardName(mouseCard);
-//			text += "\n";
-//			text += GetCardTypeString(RemotePlayer.makeMyCard(mouseCard, -1, false, false, false, false, false));
-//			text += " (" + Strings.getCardExpansion(mouseCard) + ")";
-//			text += "\n";
-//			text += Strings.getFullCardDescription(mouseCard);
         }
         boolean hasPlayerTokens = players != null && currentTokens != null && countTokens(currentTokens) > 0;
         if (hasPlayerTokens || numEmbargos > 0 || numPileVpTokens > 0 || numPileDebtTokens > 0 || numPileTradeRouteTokens > 0) {

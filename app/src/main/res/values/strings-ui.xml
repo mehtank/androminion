@@ -265,7 +265,8 @@
 	<string name="token_victory">Victory</string>
 	<string name="token_debt">Debt</string>
 	<string name="token_trade_route">Trade Route</string>
-	<string name="bane_card">Bane card</string>
+    <string name="bane_card">Bane card</string>
+    <string name="way_of_the_mouse_card">Way of the Mouse card</string>
 	<string name="obelisk_card">Obelisk card (worth 2 VP)</string>
 	<string name="status_turn_number">Turn %1$s%2$s</string>
 	<string name="status_current_turn">\u0020(Current turn)</string>

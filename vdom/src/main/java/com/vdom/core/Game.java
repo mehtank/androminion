@@ -3449,7 +3449,6 @@ public class Game {
                 }
                 if(card != null && wayOfTheMouse) {
                     wayOfTheMouseCard = card;
-                    continue;
                 }
                 if(card != null && blackMarket) {
                     blackMarketPile.add(card);
