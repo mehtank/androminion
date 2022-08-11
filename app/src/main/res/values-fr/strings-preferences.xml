@@ -121,7 +121,9 @@
 	<string name="game_over_vp_token_details_pref_summary">Affiche le détail par carte du nombre de Jetons Victoire reçus</string>
 	<string name="next_game_pref_title">Pour les parties ultérieures</string>
 	<string name="card_counts_pref_title">Décomptes des cartes</string>
-	<string name="card_counts_pref_summary">Affichage du nombre de cartes : Deck / Main / Total </string>
+	<string name="card_counts_pref_summary">Affichage du nombre de cartes : Deck / Main / Total</string>
+	<string name="vp_counter_pref_title">Compteur de points Victoire</string>
+	<string name="vp_counter_pref_summary">Afficher les PVs du joueur pendant la partie</string>
 	<string name="mask_names_pref_title">Masquer le nom des IA</string>
 	<string name="mask_names_pref_summary">Jusqu\'à la fin de la partie</string>
 	<string name="sort_cards_pref_title">Tri des cartes en main</string>
