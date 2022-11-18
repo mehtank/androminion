@@ -1212,7 +1212,9 @@ public class CardImpl implements Card, Comparable<Card>{
     	context.silversPlayed += 1;
     	if (context.silversPlayed == 1) {
     		context.addCoins(context.merchantsPlayedCoins);
-    		game.drawToHand(context, Cards.merchant, 1, new PlayContext());
+            for (int i = 0; i < context.merchantsPlayedCards; ++i) {
+                game.drawToHand(context, Cards.merchant, context.merchantsPlayedCards, new PlayContext());
+            }
     	}
     	int saunasInPlay = context.countCardsInPlay(Cards.sauna);
     	for (int i = 0; i < saunasInPlay; ++i) {
