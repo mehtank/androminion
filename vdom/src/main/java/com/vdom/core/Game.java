@@ -4187,7 +4187,7 @@ public class Game {
                     allCardsObtainedLastTurn[playersTurn].add(event.card);
                     
                     if (cardsObtainedLastTurn[playersTurn].size() == 2) {
-                    	if (cardInGame(Cards.labyrinth)) {
+                    	if (cardInGame(Cards.labyrinth) && player == players[playersTurn] && (!player.isPossessed() || Game.errataPossession == PossessionPossessorTokens.ALL)) {
                     		int tokensLeft = getPileVpTokens(Cards.labyrinth);
                     		if (tokensLeft > 0) {
                     			int tokensToTake = Math.min(tokensLeft, 2);
