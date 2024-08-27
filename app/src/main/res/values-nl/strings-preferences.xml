@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="general_tab_pref_title">General</string>
+    <string name="name_pref_summary">Voer je bijnaam in</string>
+    <string name="name_pref_title">Naam</string>
+    <string name="quick_play_pref_title">Snel spel</string>
+    <string name="quick_play_pref_summary">De meeste kaarten worden automatisch gespeeld (vanaf het volgende spel)</string>
+    <string name="action_chains_pref_title">Actie kettingen</string>
+    <string name="action_chains_pref_summary">Schakel meerdere actieselecties in volgorde in (vanaf het volgende spel)</string>
+    <string name="vibescreen_pref_title">Stel trillingen in…</string>
+    <string name="allvibes_pref_title">Schakel trillen in</string>
+    <string name="clickvibeon_pref_title">Tril feedback</string>
+    <string name="actionvibeon_pref_title">Actie indicator</string>
+    <string name="turnvibeon_pref_title">Beurt notificatie</string>
+    <string name="gamevibeon_pref_title">Einde spel</string>
+
+
+    <string name="game_rules_tab_pref_title">Game rules</string>
+
+
+    <string name="ui_tab_pref_title">Gebruikersnterface</string>
+    <string name="exitonback_pref_summary">Stop het spel wanneer op de terugknop is gedrukt</string>
+    <string name="exitonback_pref_title">Stop bij de terugknop</string>
+    <string name="showenglishnames_pref_title">Toon Engelse namen</string>
+    <string name="showenglishnames_pref_summary">Toon de Engelse naam van een kaart tussen haakjes (nutteloos bij Engelse taal)</string>
+    <string name="one_turn_logs_pref_title">Details van één beurt</string>
+    <string name="one_turn_logs_pref_summary">Toon alleen de log van de huidige beurt onder in beeld (vanaf het volgende spel)</string>
+
+
+
+    <string name="logging_testings_tab_pref_title">Logs and debug</string>
+</resources>

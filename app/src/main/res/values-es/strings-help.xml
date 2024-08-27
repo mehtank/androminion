@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="help_supply1">Bienvenido a Androminion, un app de Android no oficial basado en el juego de construcción de mazos Dominion, por Donald X. Vaccarino y publicado por Rio Grande Games.</string>
+	<string name="help_supply2">Si no sabes como jugar al Dominion, lee la sección &quot;Cómo jugar&quot; para ver una resumen.</string>
+	<string name="help_supply3">Este es el Suministro.  El Suministro consiste de cards disponiles para comprar en el juego.
+		&lt;p&gt;Las cartas de Tesoro básicas están en la parte superior con las de Maldición y las de Victoria básicas debajo. Debajo de esas están las cartas del Reino, que cambian cada juego. Cualquier carta horizontal y las que no sean del Suministro se verán debajo del Suministro.&lt;/p&gt;</string>
+	<string name="help_supply4">El coste de cada carta se indica en el circulo amarillo a la izquierda de su nombre (circulos rojos indican un coste de Deuda y circulos azules indican uno con poción).
+&lt;br&gt;La cantidad de cartas restantes en el montón están bajo el nombre.
+&lt;br&gt;Cualquier marcador en un montón se muestra a la derecha.
+&lt;br&gt;Puedes pulsar unos momentos sobre una carta para ver todos los detalles sobre la misma.</string>
+
+	<string name="help_turn1">Esta es la vista del turno. Se puede ver la puntuación de cada jugador así como información acerca del turno actual. </string>
+	<string name="help_turn2">El jugador activo esta resaltado y los jugadores están ordenados por orden de turno.</string>
+	<string name="help_turn3">Si están habilitados, los numeros bajo el nombre de los jugadores indican el numero de cartas en su mazo, mano y total de cartas y sus puntos de victoria.</string>
+	<string name="help_turn4">&lt;p&gt;Cualquier marcador que tenga un jugador se muestra a la derecha de su nombre.&lt;/p&gt;
+		&lt;p&gt;Pulsa unos momentos sobre un jugador para ver todos los detalles.&lt;/p&gt;</string>
+	<string name="help_turn5">Un mensaje pidiendo la siguiente acción a realizar está encima de los jugadores. El número actual de acciones, compras y $* (monedas) se muestra en la parte superior de la pantalla.</string>
+
+	<string name="help_hand1">Esta primera columna indica las cartas que se encuentran en tu mano. Solo tú puedes verlas.</string>
+	<string name="help_hand2">La segunda columna muestra las cartas que están en juego. Todos pueden verlas. Las cartas en gris aquí se jugaron para este turno, pero ya no están en juego.</string>
+	<string name="help_hand3">Si tienes cartas en tableros u otras zonas apartadas, cambia la vista a la izquierda para verlas. Las cartas eliminadas se ven en la columna de la derecha y son visibles para todos.</string>
+	<string name="help_hand4">Si alguna de las columnas se vuelve demasiado grande, necesitarás desplazar la vista abajo o arriba para poder ver todas las cartas.</string>
+	<string name="help_hand5">De nuevo, puedes pulsar unos momentos sobre una carta para ver más detalles sobre la misma.</string>
+	
+	<string name="help_log1">Por último, un seguimiento del juego se muestra en la parte inferior de la pantalla. Puedes desplazarlo para verlo al completo.
+		&lt;p&gt;Siempre puedes volver a ver esta ayuda en cualquier momento a través del menú.&lt;/p&gt;</string>
+
+	<string name="help_end">Buena suerte y ¡Disfruta del juego!</string>
+
+	<string name="help_next">Siguiente página</string>
+	<string name="help_quit">Salir de la ayuda</string>
+</resources>

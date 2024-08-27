@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+  <string name="FirstGame_gametype">Les premières parties</string>
+  <string name="BigMoney_gametype">Richesses et trésors</string> 
+  <string name="Interaction_gametype">Interaction</string> 
+  <string name="SizeDistortion_gametype">Changement de taille</string> 
+  <string name="VillageSquare_gametype">Place du Village</string>
+  
+  <string name="DeckTop_gametype">Sur le Deck</string>
+  <string name="SleightOfHand_gametype">Tour de passe-passe</string>
+  <string name="Improvements_gametype">Améliorations</string>
+  <string name="SilverAndGold_gametype">Or &amp; Argent</string>
+  
+  <string name="VictoryDance_gametype">Danse de la victoire</string> 
+  <string name="SecretSchemes_gametype">Manigances</string> 
+  <string name="BestWishes_gametype">Meilleurs voeux</string>
+ 
+  <string name="ThePlotThickens_gametype">Ça se complique</string> 
+    
+  <string name="Deconstruction_gametype">Déconstruction</string> 
+  <string name="HandMadness_gametype">La corruption du pouvoir</string>
+  <string name="Underlings_gametype">Subalternes</string>
+  
+  <string name="GrandScheme_gametype">Un grand dessein</string>
+  
+  <string name="HighSeas_gametype">Haute mer</string> 
+  <string name="BuriedTreasure_gametype">Trésors enfouis</string> 
+  <string name="Shipwrecks_gametype">Naufrages</string>
+  
+  <string name="ReachForTomorrow_gametype">En route vers l\'aventure</string> 
+  <string name="Repetition_gametype">A répétitions</string> 
+  <string name="GiveAndTake_gametype">Donnant donnant</string>
+  
+  <string name="AStarToSteerBy_gametype">Une étoile pour guider</string> 
+  <string name="ShorePatrol_gametype">Patrouille côtière</string> 
+  <string name="BridgeCrossing_gametype">Traversée du pont</string>
+  
+  <string name="ForbiddenArts_gametype">Arts interdits</string> 
+  <string name="PotionMixers_gametype">Fabricants de potions</string> 
+  <string name="ChemistryLesson_gametype">Cours de chimie</string>
+  
+  <string name="Servants_gametype">Serviteurs</string> 
+  <string name="SecretResearch_gametype">Recherche secrète</string> 
+  <string name="PoolsToolsAndFools_gametype">Bassins, engins et crétins</string>
+  
+  <string name="Forewarned_gametype">Prévenu</string>
+  <string name="GummedUp_gametype">Gommé</string>
+    
+  <string name="Beginners_gametype">Débutant</string> 
+  <string name="FriendlyInteractive_gametype">Interactions amicales</string> 
+  <string name="BigActions_gametype">Actions capitales</string> 
+
+  <string name="BiggestMoney_gametype">Le plus riche</string> 
+  <string name="TheKingsArmy_gametype">L\'Armée du Roi</string> 
+  <string name="TheGoodLife_gametype">La Dolce Vita</string>
+
+  <string name="PathsToVictory_gametype">Les sentiers de la Victoire</string> 
+  <string name="AllAlongTheWatchtower_gametype">Du haut du mirador</string> 
+  <string name="LuckySeven_gametype">Chiffre chanceux</string>
+  
+  <string name="ExplodingKingdom_gametype">Royaume explosif</string>
+  <string name="PirateBay_gametype">Baie des Pirates</string>
+  
+  <string name="CountingContest_gametype">Concours de comptage</string>
+  <string name="LowerLearning_gametype">Apprentissage inférieur</string>
+
+  <string name="BountyOfTheHunt_gametype">Fruits de la chasse</string> 
+  <string name="BadOmens_gametype">Mauvais augure</string> 
+  <string name="TheJestersWorkshop_gametype">L\'atelier du bouffon</string>
+
+  <string name="LastLaughs_gametype">Les derniers rires</string> 
+  <string name="TheSpiceOfLife_gametype">Un peu de piquant</string> 
+  <string name="SmallVictories_gametype">Petites victoires</string>
+  
+  <string name="Collector_gametype">Collectionneur</string>
+  <string name="Collider_gametype">Collisionneur</string>
+  
+  <string name="ClownCollege_gametype">Collège des clowns</string>
+  <string name="WineAndDine_gametype">Vin &amp; dîner</string>
+  
+  <string name="Detours_gametype">Détours</string>
+  
+  <string name="HinterlandsIntro_gametype">Introduction</string> 
+  <string name="FairTrades_gametype">Commerce équitable</string> 
+  <string name="Bargains_gametype">Marchandage</string> 
+  <string name="Gambits_gametype">Fortune en péril</string> 
+    
+  <string name="HighwayRobbery_gametype">Vol de grand chemin</string> 
+  <string name="AdventuresAbroad_gametype">Partir à l\'aventure</string>
+    
+  <string name="MoneyForNothing_gametype">De l\'argent facile</string> 
+  <string name="TheDukesBall_gametype">Le bal du Duc</string>
+    
+  <string name="Travelers_gametype">Voyageurs</string> 
+  <string name="Diplomacy_gametype">Diplomatie</string>
+    
+  <string name="SchemesAndDreams_gametype">Rêves et machinations</string> 
+  <string name="WineCountry_gametype">Au pays du vin</string>
+
+  <string name="InstantGratification_gametype">Gratification instantanée</string> 
+  <string name="TreasureTrove_gametype">Trésors et richesses</string>
+   
+  <string name="BlueHarvest_gametype">Moisson</string> 
+  <string name="TravelingCircus_gametype">Cirque ambulant</string>
+    
+  <string name="GrimParade_gametype">Défilé funeste</string>
+  <string name="PlayingChessWithDeath_gametype">Jouer aux échecs avec la Mort</string>
+   
+  <string name="HighAndLow_gametype">Des hauts et des bas</string>
+  <string name="ChivalryAndRevelry_gametype">Chevalerie et réjouissance</string>
+   
+  <string name="Prophecy_gametype">Prophétie</string>
+  <string name="Invasion_gametype">Invasion</string>
+   
+  <string name="WateryGraves_gametype">Tombes aquatiques</string>
+  <string name="Peasants_gametype">Paysans</string>
+   
+  <string name="Infestations_gametype">Infestations</string>
+  <string name="Lamentations_gametype">Lamentations</string>
+   
+  <string name="OneMansTrash_gametype">Le malheur des uns</string>
+  <string name="HonorAmongThieves_gametype">Les loups ne se mangent pas entre eux</string>
+  
+  <string name="DarkCarnival_gametype">Sombre carnaval</string>
+  <string name="ToTheVictor_gametype">Honneur au vainqueur</string>
+       
+  <string name="FarFromHome_gametype">Loin de la maison</string>
+  <string name="Expeditions_gametype">Expéditions</string>
+   
+  <string name="ArtsAndCrafts_gametype">Artistes et artisans</string>
+  <string name="CleanLiving_gametype">Une vie saine</string>
+  <string name="GildingTheLily_gametype">Cage dorée</string>
+   
+  <string name="NameThatCard_gametype">À la carte</string>
+  <string name="TricksOfTheTrade_gametype">Les ficelles du commerce</string>
+  <string name="DecisionsDecisions_gametype">Le temps des décisions</string>
+  
+  <string name="GhostsAndTaxes_gametype">Fantômes &amp; Impôts</string>
+  <string name="IslandBuilder_gametype">Constructeur d\'îles</string>
+  
+  <string name="Illuminati_gametype">Illuminati</string>
+  <string name="TonicsAndToxins_gametype">Toniques &amp; Toxines</string>
+  
+  <string name="Quarrymen_gametype">Carrières</string>
+  <string name="MetalAndMeat_gametype">Métal &amp; Viande</string>
+  <string name="PennyPinching_gametype">Économie de bouts de chandelle</string>
+  
+  <string name="Misfortune_gametype">Malheur</string>
+  <string name="BakingContest_gametype">Concours de pâtisserie</string>
+  
+  <string name="Exchanges_gametype">Échanges</string>
+  <string name="RoadToRiches_gametype">Route vers la richesse</string>
+  
+  <string name="Stoneground_gametype">Sol en pierre</string>
+  <string name="ClassStruggle_gametype">Lutte des classes</string>
+  
+  <string name="GentleIntro_gametype">Intro douce</string>
+  <string name="ExpertIntro_gametype">Intro d\'expert</string>
+   
+  <string name="LevelUp_gametype">Niveau supérieur</string>
+  <string name="SonOfSizeDistortion_gametype">Enfant du Gigantisme</string>
+   
+  <string name="RoyaltyFactory_gametype">Manufacture Royale</string>
+  <string name="MastersOfFinance_gametype">Maîtres de la Finance</string>
+   
+  <string name="PrinceOfOrange_gametype">Prince d\'Orange</string>
+  <string name="GiftsAndMathoms_gametype">Présents et Babioles</string>
+   
+  <string name="HastePotion_gametype">Potion de rapidité</string>
+  <string name="Cursecatchers_gametype">Attrapeurs de malédictions</string>
+   
+  <string name="LastWillAndMonument_gametype">Dernière volonté et monument</string>
+  <string name="ThinkBig_gametype">Voyez en Grand</string>
+   
+  <string name="TheHerosReturn_gametype">Le retour du Héro</string>
+  <string name="SeacraftAndWitchcraft_gametype">Navigation et Sorcellerie</string>
+   
+  <string name="TradersAndRaiders_gametype">Négociants et pilleurs</string>
+  <string name="Journeys_gametype">Voyages</string>
+   
+  <string name="CemeteryPolka_gametype">Polka du Cimetière (Adv, Age</string>
+  <string name="GroovyDecay_gametype">Une décomposition sympa</string>
+   
+  <string name="Spendthrift_gametype">Le Dépensier</string>
+  <string name="QueenOfTan_gametype">Reine du bronzage</string>
+  
+  <string name="BasicIntro_gametype">Intro basique</string>
+  <string name="AdvancedIntro_gametype">Intro avancée</string>
+  
+  <string name="EverythingInModeration_gametype">Tout avec modération</string>
+  <string name="SilverBullets_gametype">Balles en argent</string>
+  
+  <string name="DeliciousTorture_gametype">Une torture délicieuse</string>
+  <string name="BuddySystem_gametype">Copinage</string>
+  
+  <string name="BoxedIn_gametype">En boite</string>
+  <string name="KingOfTheSea_gametype">Roi de la Mer</string>
+  
+  <string name="Collectors_gametype">Collectors</string>
+  
+  <string name="BigTime_gametype">De première catégorie</string>
+  <string name="GildedGates_gametype">Portail doré</string>
+  
+  <string name="Zookeepers_gametype">Gardiens de zoo</string>
+  <string name="CashFlow_gametype">Du flouze</string>
+  
+  <string name="SimplePlans_gametype">Des plans simples</string>
+  <string name="Expansion_gametype">Extension</string>
+  
+  <string name="TombOfTheRatKing_gametype">La Tombe du Roi Rat</string>
+  <string name="TriumphOfTheBanditKing_gametype">Le Triomphe du Roi Bandit</string>
+  <string name="TheSquiresRitual_gametype">Le Rituel de l\'écuyer</string>
+  
+  <string name="AreaControl_gametype">Zone de contrôle</string>
+  <string name="NoMoneyNoProblems_gametype">Pas d\'argent, pas de soucis</string>
+  
+  <string name="Dusk_gametype">Crépuscule</string>
+  <string name="Midnight_gametype">Minuit</string>
+  
+  <string name="NightShift_gametype">Quart de nuit</string>
+  <string name="IdleHands_gametype">Oisiveté</string>
+  
+  <string name="ShadowyFigures_gametype">Ombres</string>
+  <string name="ImpendingDoom_gametype">Malheur imminent</string>
+  
+  <string name="TheNewBlack_gametype">La nouvelle noirceur</string>
+  <string name="ForbiddenIsle_gametype">L\'île interdite</string>
+  
+  <string name="NightmareFuel_gametype">Du carburant pour cauchemar</string>
+  
+  <string name="TreasuresOfTheNight_gametype">Trésors de la Nuit</string>
+  <string name="DayAtTheRaces_gametype">Journée aux courses</string>
+  
+  <string name="TheEndlessFair_gametype">La foire sans fin</string>
+  <string name="HappyChaos_gametype">Un heureux Chaos</string>
+  
+  <string name="SearchParty_gametype">Équipe de recherche</string>
+  <string name="CountingSheep_gametype">Compter les moutons</string>
+  
+  <string name="GraveMatters_gametype">Affaires de cimetierre</string>
+  <string name="RatsAndBats_gametype">Souris et Chauve-souris</string>
+  
+  <string name="MonsterMash_gametype">Salsa du Démon</string>
+  <string name="LostInTheWoods_gametype">Perdus dans les bois</string>
+  
+  <string name="Luftschloss_gametype">Luftschloss</string>
+  <string name="PookaPranks_gametype">Les farces du Pooka</string>
+  
+  
+  <string name="Overture_gametype">Ouverture</string>
+  <string name="Prelude_gametype"> Prélude</string>
+  
+  <string name="ItTakesAVillager_gametype">Il faut un villageois</string>
+  <string name="CaptureTheFlag_gametype">Capturer le drapeau</string>
+  
+  <string name="MementoMori_gametype">Memento Mori</string>
+  <string name="ClockworkCourt_gametype">Cour mécanique</string>
+  
+  <string name="FreeShipping_gametype">Livraison gratuite</string>
+  <string name="DiggingForTreasure_gametype">Creuser pour trouver un trésor</string>
+  
+  <string name="PeekABoo_gametype">Coucou</string>
+  
+  <string name="DreamersOfDreams_gametype">Rêveurs de rêves</string>
+  <string name="MoversAndShakers_gametype">Personnes influentes</string>
+    
+  <string name="ComboCorner_gametype">Coin des combinaisons</string>
+  <string name="FillingTheCoffers_gametype">Remplir les caisses</string>
+  
+  <string name="SweetenedDeals_gametype">Accords adoucis</string>
+  <string name="APennySaved_gametype">Un sou économisé</string>
+  
+  <string name="Stargazing_gametype">Observation des étoiles</string>
+  <string name="SewerRats_gametype">Rats d\'égout</string>
+  
+  <string name="Progress_gametype">Progrès</string>
+  <string name="OnceUponATime_gametype">Il était une fois</string>
+  
+  <string name="ExploringTheCity_gametype">Explorer la ville</string>
+  <string name="NavigatingTheSewers_gametype">Naviguer dans les égouts</string>
+  
+  <string name="BecomingAMonster_gametype">Devenir un monstre</string>
+  <string name="TrueBelievers_gametype">Les vrais croyants</string>
+
+
+  <string name="IntroToHorses_gametype">Introduction aux Chevaux</string>
+  <string name="IntroToExile_gametype">Introduction à l\'exil</string>
+
+  <string name="PonyExpress_gametype">Pony Express</string>
+  <string name="GardenOfCats_gametype">Jardin des chats</string>
+
+  <string name="DogAndPonyShow_gametype">La grand-messe</string>
+  <string name="Explosions_gametype">Explosions</string>
+
+  <string name="Innsmouth_gametype">Innsmouth</string>
+  <string name="Ruritania_gametype">Ruritanie</string>
+
+  <string name="ClassOf20_gametype">Classe de \'20</string>
+
+  <string name="LimitedTimeOffer_gametype">Offre d\'une durée limitée</string>
+  <string name="BirthOfANation_gametype">Naissance d\'une nation</string>
+
+  <string name="LivingInExile_gametype">Vivre en exil</string>
+  <string name="ThrillOfTheHunt_gametype">Le frisson de la chasse</string>
+
+  <string name="BigBlue_gametype">Grand Bleu</string>
+  <string name="Intersection_gametype">Intersection</string>
+
+  <string name="FriendlyCarnage_gametype">Carnage amical</string>
+  <string name="GiftHorses_gametype">Chevaux de Troie</string>
+
+  <string name="HorseFeathers_gametype">Plumes de cheval</string>
+  <string name="SoonerOrLater_gametype">Tôt ou tard</string>
+
+  <string name="NoMoneyDown_gametype">Pas d\'acompte</string>
+  <string name="DetoursAndShortcuts_gametype">Détours et raccourcis</string>
+
+  <string name="SeizeTheNight_gametype">Profitez de la Nuit</string>
+  <string name="AnimalCrackers_gametype">Craquelins animaux</string>
+
+  <string name="BidingTime_gametype">Temps d\'enchère</string>
+  <string name="VillagerMadness_gametype">Folie villageoise</string>
+
+
+  <string name="Test_gametype">Essai (pour tests)</string>
+
+</resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="type_treasure">Treasure</string>
+    <string name="type_victory">Victory</string>
+    <string name="type_action">Action</string>
+    <string name="type_attack">Attack</string>
+    <string name="type_reaction">Reaction</string>
+    <string name="type_duration">Duration</string>
+    <string name="type_looter">Looter</string>
+    <string name="type_ruins">Ruins</string>
+    <string name="type_prize">Prize</string>
+    <string name="type_knight">Knight</string>
+    <string name="type_shelter">Shelter</string>
+    <string name="type_event">Event</string>
+    <string name="type_reserve">Reserve</string>
+    <string name="type_traveller">Traveller</string>
+    <string name="type_castle">Castle</string>
+    <string name="type_gathering">Gathering</string>
+    <string name="type_landmark">Landmark</string>
+    <string name="type_boon">Boon</string>
+    <string name="type_doom">Doom</string>
+    <string name="type_fate">Fate</string>
+    <string name="type_heirloom">Heirloom</string>
+    <string name="type_hex">Hex</string>
+    <string name="type_night">Night</string>
+    <string name="type_spirit">Spirit</string>
+    <string name="type_state">State</string>
+    <string name="type_zombie">Zombie</string>
+    <string name="type_artifact">Artifact</string>
+    <string name="type_project">Project</string>
+    <string name="type_command">Command</string>
+    <string name="type_way">Way</string>
+    <string name="type_curse">Curse</string>
+</resources>

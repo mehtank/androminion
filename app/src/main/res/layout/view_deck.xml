@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textSize="12sp" />
+
+    <LinearLayout 
+        android:id="@+id/counts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/name">
+    
+        <TextView
+	        android:id="@+id/countsPrefix"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="12sp" />
+        <TextView
+	        android:id="@+id/countsDeck"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="12sp" />
+        <TextView
+	        android:id="@+id/countsMiddle"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="12sp" />
+        <TextView
+	        android:id="@+id/countsStashesInHand"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="12sp"
+	        android:textColor="?attr/stashTextColor" />
+        <TextView
+	        android:id="@+id/countsSuffix"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="12sp" />
+        
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:id="@+id/statusIcons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:gravity="right">
+    
+    <TextView
+        android:id="@+id/minusOneCoinToken"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/guildscointokens"
+        android:textColor="#0000FF"
+        android:textSize="12sp"
+        android:visibility="gone" />
+    
+    <TextView
+        android:id="@+id/minusOneCardToken"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/minusonecardtoken"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        android:visibility="gone" />
+    
+    <TextView
+        android:id="@+id/journeyToken"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/journeytoken"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/journey_token_initial" />
+    
+    <TextView
+        android:id="@+id/deluded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/state"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/deluded_initial"  />
+    
+    <TextView
+        android:id="@+id/envious"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/state"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/envious_initial"  />
+    
+    <TextView
+        android:id="@+id/lostInTheWoods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/state"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/lostInTheWoods_initial"  />
+    
+    <TextView
+        android:id="@+id/miserable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/state"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"  />
+    
+    <TextView
+        android:id="@+id/twiceMiserable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/state"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"  />
+    
+    <TextView
+        android:id="@+id/flag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/artifact"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/flag_initial"  />
+    
+    <TextView
+        android:id="@+id/horn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/artifact"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/horn_initial"  />
+    
+    <TextView
+        android:id="@+id/key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/artifact"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/key_initial"  />
+    
+    <TextView
+        android:id="@+id/lantern"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/artifact"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/lantern_initial"  />
+    
+    <TextView
+        android:id="@+id/treasureChest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/artifact"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:text="@string/treasureChest_initial"  />
+    
+    <TextView
+        android:id="@+id/villagerTokens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/villagertokens"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone" />
+        
+    <TextView
+        android:id="@+id/guildsCoinTokens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/guildscointokens"
+        android:textColor="#0000FF"
+        android:textSize="12sp"
+        android:visibility="gone" />
+    
+    <TextView
+        android:id="@+id/pirates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/pirates"
+        android:textColor="#ffff00"
+        android:textSize="12sp"
+        android:visibility="gone" />
+    
+    <TextView
+        android:id="@+id/debtTokens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/debttokens"
+        android:textColor="#FFF"
+        android:textSize="12sp"
+        android:visibility="gone" />
+        
+    <TextView
+        android:id="@+id/victoryTokens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/victorytokens"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:visibility="gone" />
+    
+    </LinearLayout>
+</merge>

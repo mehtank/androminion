@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    
+	<!-- AndroidManifest -->
+	<string name="app_name">Androminion</string>
+
+    <!-- Menu Activity -->
+    <string name="start_game_menu">Start Game</string>
+    <string name="join_game_menu">Join Game</string>
+    <string name="stats_menu">Statistics</string>
+    <string name="settings_menu">Settings</string>
+    <string name="about_menu">About</string>
+    <string name="rules_menu">How to Play</string>
+    <string name="help_menu">Interface Help</string>
+    <string name="quit_menu">Quit</string>
+
+    <!-- Settings Activity -->
+    <string name="settingsactivity_title">Settings</string>
+
+    <!-- Statistics Activity -->
+    <string name="statisticsactivity_title">Statistics</string>
+    <string name="resetstatistics_menu">Reset Statistics</string>
+    <string name="win_loss_menu">Win/Loss Record</string>
+    <string name="win_loss_playerwins">%1$s player game wins</string>
+    <string name="achievements_menu">Achievements</string>
+        <string-array name="reset_choices">
+        <item>Reset statistic</item>
+        <item>Reset achievements</item>
+    </string-array>
+    <string name="reset">Reset</string>
+
+    <!-- About Activity -->
+    <string name="aboutactivity_title">About</string>
+    <string name="version">Version %1$s</string>
+    <string name="connections_menu">Connections </string>
+    <string name="connections_title">Connections: </string>
+    <string name="connections">
+	<![CDATA[
+        <h3>On network permissions and usage</h3>
+		This app functions by using a strictly local networking layer to talk between the player and the game -- currently, unless using multiplayer,  <b>no data is sent in or out of the phone</b>.  Nonetheless, this local network still requires networking permission, and such internal data transfer may show up as total app usage.<br><br>
+    	<h3>Steps to run a multiplayer game</h3>
+      	<b><font color="red">You need the source code to compile the server vdom!</font></b> In the vdom\\ directory, type \'ant run\' (or just start com.vdom.core.Game with whatever arguments you want - the build file build.xml has some default arguments).  Be sure you know the host name or ip address for the machine that\'s running the game server, and that the player ports (by default 2255 and 2256) aren\'t blocked by your machine\'s firewall.<br>
+      	Open the app on two separate devices.  Use the \"join game\" dialog to enter your name, the host name or ip address of the machine running the server, then the port that shows up in the terminal where you\'re running the server.  Once the first player connects, a second port will show up; enter that one in on the second device (should be 2255 and 2256). The interface for the first player that connects will be missing a lot of stuff until the second player connects, but once both players are there, things work fine.<br><br>
+		Source: <a href="https://code.google.com/p/androminion/issues/detail?id=582">https://code.google.com/p/androminion/issues/detail?id=582</a><br>
+	]]>
+</string>
+    <string name="whatsnew_menu">What\'s new </string>
+    <string name="whatsnew_title">What\'s new: </string>
+    <string name="whatsnew">
+<![CDATA[
+		<h3>Please Read!</h3>
+		By request of Rio Grande Games, the publisher of Dominion, we have removed Androminion from the Play Store. Please do not publish it in any public app store as there will be an official Dominion app.<br><br>
+		<h3>Version 10.0</h3>
+		* Menagerie Expansion! <br>
+		<h3>Version 9.06</h3>
+		* Renaissance Expansion! <br>
+		* Promo Cards: Captain, Church
+		<h3>Version 8.10</h3>
+		* Nocturne Expansion! <br>
+		* Promo Card: Dismantle
+		<h3>Version 7.06</h3>
+		* Empires Expansion! <br>
+		* Second Edition of Dominion and Intrigue! <br>
+		* Promo Card: Sauna/Avanto
+		<h3>Version 6.07</h3>
+		* Adventures Expansion! <br>
+		* Promo Cards: Stash, Summon
+		<h3>Version 6.00</h3>
+		* Adventures (beta)
+		<h3>Version 5.01</h3>
+		* Promo Black Market!!! <br>
+		* Promo Prince!!! <br>
+		* Additional language translations <br>
+		* Lots of bugfixes and enhancements
+		<h3>Version 5.00</h3>
+		* Includes Guilds expansion! <br>
+		* Additional language translations <br>
+		* Many bugfixes <br>
+		<h3>Version 4.02</h3>
+		* Band of Misfits now implemented <br>
+		* Lots of bugfixes 
+		<h3>Version 4.00</h3>
+		* Dark Ages! <br>
+		* Promo cards: Envoy, Governor, Walled Village <br>
+		* Bugfixes, enhancements, updates, etc. 
+		<h3>Version 3.01</h3>
+	    * Fixed UI for smaller screens <br>
+	    * Added solitare play <br>
+	    * Some more bugfixes 
+		<h3>Version 3.00</h3>
+	    * Many gameplay bugfixes <br>
+	    * Optimized user interface with tablet support <br>
+	    * Compatibility: Android 2.2+
+	    <h3>Version 2.05</h3>
+	    * Many gameplay bugfixes <br>
+	    * We lied about 2.04 -- this actually the last version for Android 1.5 - 2.1
+	    <h3>Version 2.04</h3>
+	    * Translation to Dutch <br>
+	    * Bugfixes <br>
+	    * Last version for Android 1.5 and 1.6
+	    <h3>Version 2.03</h3>
+	    * Possession! <br>
+	    * Additional translations <br>
+		* Many, many bugfixes and enhancements <br> <br>
+	    <h3>Version 2.02</h3>
+	    * Fix crashes on Android 4.x <br>
+	    * More intuitive Moat behavior <br>
+		* Many other bugfixes and enhancements <br> <br>
+		Want greater ability to choose your own kingdom cards?  You can now launch Androminion directly from <a href="https://market.android.com/details?id=nl.spellenclubeindhoven.dominionshuffle">DominionShuffle</a>!
+	    <h3>Version 2.0</h3>
+		It has been a long while in coming, but we hope this update will have been worth the wait!  There are so many changes that we can\'t list them all here, but below are some highlights:<br/><br/>
+		<b><font color="lime">* More expansions!</font></b>  Most of the cards from Alchemy, Prosperity, Cornucopia, and Hinterlands are now available.<br/>
+		<b><font color="lime">* More game options!</font></b>  Chose from various random or preset decks, with 2-4 players.<br/>
+		<b><font color="lime">* More AI options!</font></b>  Introducing new AIs Chuck, Mary, and Sarah.<br/>
+		<b><font color="lime">* More bugfixes!</font></b>  Also more bugs, probably.<br/>
+		* Same great taste!<br/>
+		<br/><font color="lime">Androminion is now open source!</font>  This update would not have been possible without the help of a number of contributors; please view the credits tab.  You too can help!  Submit bug reports, feature requests, translations, and more on <br/><a href="https://github.com/mehtank/androminion">https://github.com/mehtank/androminion</a><br/><br/>
+	]]>
+    </string>
+    <string name="contrib_menu">Credits </string>
+    <string name="contrib_title">Contributors: </string>
+
+    <!-- StartGame Activity -->
+    <string name="startgameactivity_title">Start Game</string>
+    <string name="select_gametype">Game type:</string>
+    <string name="game_type_random">Random</string>
+    <string name="game_type_preset">Preset</string>
+    <string name="game_type_last">Last played</string>
+    <string name="game_type_specified">Specified cards</string>
+    <string name="select_non_kingdom_cards">Non-Kingdom cards:</string>
+    <string name="random_non_kingdom_default">Default</string>
+    <string name="random_all_cards">All cards</string>
+    <string name="include_platinum_colony">Platinum/Colony: </string>
+    <string name="include_shelters">Shelters: </string>
+    <string name="include_cards_random">Default</string>
+    <string name="include_cards_yes">Use</string>
+    <string name="include_cards_no">Don\'t use</string>
+    <string name="include_cards_percent">%1$s%% chance</string>
+    <string name="random_events_projects_landmarks">Events, Projects, Landmarks and Ways</string>
+    <string name="combine_sideways_cards">Combine amount</string>
+    <string name="random_sideways_cards_amount">Amount: </string>
+    <string name="keep_sideways_cards_with_expansion">Keep with original expansion</string>
+    <string name="random_include_events">Events: </string>
+    <string name="random_sideways_none">None</string>
+    <string name="random_events_none">None</string>
+    <string name="random_projects_none">None</string>
+    <string name="random_landmarks_none">None</string>
+    <string name="random_ways_none">None</string>
+    <string name="random_sideways_max_x">Up to %1$s</string>
+    <string name="random_include_projects">Projects: </string>
+    <string name="random_include_landmarks">Landmarks: </string>
+    <string name="random_include_ways">Ways: </string>
+    <string name="select_kingdom_cards">Kingdom cards from: </string>
+    <string name="random_expansions">Expansions</string>
+    <string name="random_expansions_select_all">All selected</string>
+    <string name="random_expansions_select_x">%1$s</string>
+    <string name="random_choose_from_expansions">Choose:</string>
+    <string name="random_expansion_allocation_random" tools:ignore="UnusedResources">Randomly</string>
+    <string name="random_expansion_allocation_even" tools:ignore="UnusedResources">Evenly</string>
+    <string name="random_expansion_allocation_proportional" tools:ignore="UnusedResources">Proportionally</string>
+    <string name="select_players">Players:</string>
+	<string name="random_players">Random</string>
+	<string name="probability_2_players">Chance of 2 players</string>
+	<string name="probability_3_4_players">Chance of 3–4 players</string>
+	<string name="probability_5_6_players">Chance of 5–6 players</string>
+	<string name="player">Player </string>
+    <string name="currentplayer">Current Player</string>
+    <string name="you">You</string>
+    <string name="start_game">Start game!</string>
+    <string name="card_set_cards">Cards: %1$s</string>
+    <string name="card_set_bane">Bane: %1$s</string>
+    <string name="card_set_events">Events: %1$s</string>
+    <string name="card_set_projects">Projects: %1$s</string>
+    <string name="card_set_landmarks">Landmarks: %1$s</string>
+    <string name="card_set_ways">Ways: %1$s</string>
+    <string name="card_set_plat_colony">Platinum/Colony</string>
+    <string name="card_set_no_plat_colony">No Platinum/Colony</string>
+    <string name="card_set_shelters">Shelters</string>
+    <string name="card_set_no_shelters">No Shelters</string>
+    <string name="card_set_card_options">%1$s (%2$s)</string>
+    <string name="none_game_start">None</string>
+
+    <!-- Game Activity: Splash Screen -->
+    <string name="splash">Use the menu to start a new game, or, while a game is running, to display help on how to play.</string>
+
+    <!-- Game Activity: Ingame -->
+    <string name="toast_starting">Starting game…</string> <!-- Unused -->
+    <string name="toast_loading">Loading game…</string>
+    <string name="toast_quitconfirm">Click again to quit.</string>
+    <string name="toast_mountainPassWinner">Mountain Pass: Highest bid is %1$s (%2$s)</string>
+    <string name="toast_mountainPassNoBid">Mountain Pass: No bids</string>
+    <string name="obtained">%1$s gained</string>
+    <string name="eventBought">%1$s bought</string>
+    <string name="trashed">%1$s trashed</string>
+    <string name="revealed">%1$s revealed</string>
+    <string name="revealed_from_hand">%1$s revealed (from hand)</string>
+    <string name="confirmation">Are you sure?</string>
+    <string name="confirm_no">No</string>
+    <string name="select_button">Select</string>
+    <string name="buy_button">\ \ Buy\ \ </string>
+    <string name="play_button">\ Play\ </string>
+    <string name="discard_button">Discard</string>
+    <string name="keep_button">Keep</string>
+    <string name="give_button">Give</string>
+    <string name="trash_button">Trash</string>
+    <string name="exile_button">Exile</string>
+    <string name="upgrade_button">Upgrade</string>
+    <string name="mint_button">Mint</string>
+    <string name="swindle_button">Swindle</string>
+    <string name="all_button">All</string>
+    <string name="hand_header">Hand:</string>
+    <string name="played_header">Played:</string>
+    <string name="tavern_header">Tavern:</string>
+    <string name="exile_header">Exile:</string>
+    <string name="archive_header">Archive:</string>
+    <string name="crypt_header">Crypt:</string>
+    <string name="island_header">Island:</string>
+    <string name="village_header">Village:</string>
+    <string name="prince_header">Prince:</string>
+    <string name="turn_header">: Turn\u0020</string>
+    <string name="turn_header_fleet">\u0020[Fleet]</string>
+    <string name="game_loaded" tools:ignore="TypographyOther">Game loaded!\nActions, buys and coins\navailable are shown in \nthe log as a/b/(c)</string>
+    <string name="actions_buys_coins">%1$s, %2$s, %3$s.</string>
+    <string name="action_zero">%1$s actions</string>
+    <string name="action_single">%1$s action</string>
+    <string name="action_multiple">%1$s actions</string>
+    <string name="buy_zero">%1$s buys</string>
+    <string name="buy_single">%1$s buy</string>
+    <string name="buy_multiple">%1$s buys</string>
+    <string name="coin_zero">$%1$s</string>
+    <string name="coin_single">$%1$s</string>
+    <string name="coin_multiple">$%1$s</string>
+    <string name="final_view_card_counts">Card counts</string>
+    <string name="final_view_text">%1$s: %2$s VPs.\n%3$s turns, %4$s cards.</string>
+    <string name="final_game_time">Game time: %1$s</string>
+    <string name="potion_cost_initial">p</string>
+    <string name="accept">Accept</string>
+    <string name="order_cards_summary">Drag/drop\nthe cards to\nrearrange\ntheir order.</string>
+    <string name="trash_header">Trash:</string>
+    <string name="blackMarket_header">Bl. Market:</string>
+    <string name="inheritance_header">Inherit:</string>
+	<string name="journey_token_initial">\u0020\u0020J\u0020\u0020</string>
+	<string name="token_plus_one_action_initial">A</string>
+	<string name="token_plus_one_buy_initial">B</string>
+	<string name="deluded_initial">\u0020\u0020D\u0020\u0020</string>
+	<string name="envious_initial">\u0020\u0020E\u0020\u0020</string>
+	<string name="lostInTheWoods_initial">\u0020\u0020L\u0020\u0020</string>
+	<string name="druid_boons_header">- Set aside Boons -</string>
+	<string name="flag_initial">\u0020\u0020\u2691\u0020\u0020</string>
+	<string name="horn_initial">\u0020\u0020H\u0020\u0020</string>
+	<string name="key_initial">\u0020\u0020K\u0020\u0020</string>
+	<string name="lantern_initial">\u0020\u0020L\u0020\u0020</string>
+	<string name="treasureChest_initial">\u0020\u0020T\u0020\u0020</string>
+	<string name="token_header">- Tokens -</string>
+	<string name="token_plus_one_card">+1 Card</string>
+	<string name="token_plus_one_action">+1 Action</string>
+	<string name="token_plus_one_buy">+1 Buy</string>
+	<string name="token_plus_one_coin">+$1</string>
+	<string name="token_minus_2_cost">-2 cost</string>
+	<string name="token_trashing">Trashing</string>
+	<string name="token_projectCube">Project cube</string>
+	<string name="token_colon">:\u0020</string>
+	<string name="token_separator">,\u0020</string>
+	<string name="token_embargo">Embargoes</string>
+	<string name="token_victory">Victory</string>
+	<string name="token_debt">Debt</string>
+	<string name="token_trade_route">Trade Route</string>
+    <string name="bane_card">Bane card</string>
+    <string name="way_of_the_mouse_card">Way of the Mouse card</string>
+	<string name="obelisk_card">Obelisk card (worth 2 VP)</string>
+	<string name="status_turn_number">Turn %1$s%2$s</string>
+	<string name="status_current_turn">\u0020(Current turn)</string>
+	<string name="status_deck_size">Cards in deck: %1$s%2$s</string>
+	<string name="status_stash_on_deck">\u0020(Stash on top)</string>
+	<string name="status_hand_size">Cards in hand: %1$s</string>
+	<string name="status_hand_stashes">Stash cards in hand: %1$s</string>
+	<string name="status_total_cards">Total cards: %1$s</string>
+	<string name="status_vp">Victory points: %1$s</string>
+	<string name="status_has_minus_coin_token">Has -$1 token</string>
+	<string name="status_has_minus_card_token">Has -1 Card token</string>
+	<string name="status_journey_token_up">Journey token is face up</string>
+	<string name="status_journey_token_down">Journey token is face down</string>
+	<string name="status_has_deluded">Has Deluded (At the start of your Buy phase, return this, and you can\'t buy Actions this turn.)</string>
+	<string name="status_has_envious">Has Envious (At the start of your Buy phase, return this, and Silver and Gold make $1 this turn.)</string>
+	<string name="status_has_lostInTheWoods">Has Lost in the Woods (At the start of your turn, you may discard a card to receive a Boon.)</string>
+	<string name="status_has_miserable">Has Miserable (-2 VP)</string>
+	<string name="status_has_twiceMiserable">Has Twice Miserable (-4 VP)</string>
+	<string name="status_has_flag">Has the Flag (When drawing your hand, +1 Card.)</string>
+	<string name="status_has_horn">Has the Horn (Once per turn, when you discard a Border Guard from play, you may put it onto your deck.)</string>
+	<string name="status_has_key">Has the Key (At the start of your turn, +$1.)</string>
+	<string name="status_has_lantern">Has the Lantern (Your Border Guards reveal 3 cards and discard 2.)</string>
+	<string name="status_has_treasureChest">Has the Treasure Chest (At the start of your Buy phase, gain a Gold.)</string>
+	<string name="status_coin_tokens">Coin tokens on Coffers mat: %1$s</string>
+	<string name="status_villager_tokens">Villagers: %1$s</string>
+	<string name="way_of_the_mouse_card_header">- Set-Aside Card -</string>
+	<string name="status_pirate_tokens">Pirate Ship Coin tokens: %1$s</string>
+	<string name="status_debt_tokens">Debt tokens: %1$s</string>
+	<string name="status_victory_tokens">Victory tokens: %1$s</string>
+	<string name="card_more_info">More info</string>
+	
+	<string name="rules_title">How to Play</string>
+	<string name="rules_official">Official rules</string>
+	<string name="rules_official_url">https://www.riograndegames.com/wp-content/uploads/2016/09/Dominion-2nd-Edition-Rules.pdf</string>
+	<string name="rules_wiki">Dominion Strategy wiki</string>
+	<string name="rules">
+<![CDATA[
+		<h3>Overview</h3>
+<p>Dominion is a deck-building game where players start with a deck of simple cards and compete to have the most VP (Victory Points) when the game ends, usually by buying better cards and removing unneeded cards from their deck.</p>
+<p>Each game has a <b>Supply</b> consisting of at least the 3 basic Treasure and Victory cards piles and Curses. There are 10 different Kingdom card piles in the Supply as well; these are different each game. Each has unique abilities that change up the game. You can buy or otherwise gain cards from the Supply each turn using the cards you play.</p>
+<p>Gained cards are added to your discard pile. Your discard pile is shuffled into your deck (draw pile) when it\'s empty and you need cards from it. This cycles your new cards into your expanding deck.</p>
+<h3>Gameplay</h3>
+<p>Each player usually starts with 7 Copper and 3 Estate cards shuffled into their deck and draws 5 cards from it to their hand to start. A random player takes the first turn.</p>
+<p>Each turn consist of three phases: Action, Buy, and Clean-up (ABC). A player starts each turn with $0 (Coins), 1 +Action, and 1 +Buy.</p>
+<p><b>Action phase:</b> you may play 1 Action card from your hand to follow its instructions. These often form the bulk of the strategy in a given game; see how you can get them to synergize to win. Some cards grant additional +Actions that will allow you play more Action cards. (Instructions below a dividing line happen at a different time; follow them when indicated).</p>
+<p><b>Buy phase:</b> you first play any desired Treasure cards from your hand; these usually give you $* to spend that turn. Then you may buy a card from the Supply costing up to the $* you have. If you have additional +Buys and enough $* you can buy more cards. You can also buy Events or Projects when present.</p>
+<p><b>Clean-up phase:</b> you discard all remaining cards from your hand and appropriate cards from play, then draw 5 cards from your deck for your next turn.</p>
+<p>The <b>game ends</b> after a turn where either the Province or Colony pile is empty or 3 total Supply piles are (4 in a 5-6 player game). Ties go to the player with fewest turns (extra turns don’t count).</p>
+<h3>Other Card Types</h3>
+<p><b>Victory cards</b> are worth VP. Usually gaining the most high-point cards will make you win. They often clog up your deck, so plan accordingly. You can also get points with VP tokens that some effects provide.</p>
+<p><b>Curse</b> cards are worth -1 point each and are usually given out by certain Attack cards. You\'ll often want to get rid of Curses if you have to gain them.</p>
+<i>Note:</i> Cards with multiple types (e.g. Treasure – Victory) count as all of those types individually.
+<p><b>Duration</b> cards can do something in future turns. They stay in play when still in use instead of being cleaned-up (along with cards that play them multiple times).</p>
+<p><b>Reaction</b> cards can be used at unusual times for certain effects, such as mitigating Attacks.</p>
+<p><b>Night</b> cards add a Night phase after your Buy phase in which you can play any desired Night cards from your hand.</p>
+<p><b>Reserve</b> cards go to your Tavern mat and can usually be called back into play later from it for an effect.<p>
+<p><i>Note:</i> Other types on cards just label them and have no special rules.</p>
+<h3>Landscape cards</h3>
+<p><b>Events</b> can be bought to provide an immediate effect. They aren’t gained or added to your deck.</p>
+<p><b>Landmarks</b> add additional scoring rules.</p>
+<p><b>Projects</b> grant a long-term ability when bought by placing one of your 2 Project cubes; they can only be bought once by each player.</p>
+<p><b>Ways</b> provide alternate instructions for when you play Action cards.</p>
+<h3>Other Terms</h3>
+<p><b>Trashing</b> cards moves them to the shared trash pile; you no longer have them, but they are out of your deck. Often you\'ll want to trash at least some of your starting cards to see your better cards more often.</p>
+<p><b>+X Actions; +X Buys; +$X:</b> Get more of that resource.</p>
+<p><b>+X Cards:</b> Draw X cards from your deck to your hand.</p>
+<p><b>Gain:</b> Move the card to your discard pile. It\'s yours now. Bought cards are gained after buying.</p>
+<p><b>+X Coffers:</b> Get X tokens that can be kept or converted to $* later during your Buy phase (before buying).</p>
+<p><b>+X Villagers:</b> Get X tokens that can be kept or converted later to +Actions during your Action phase.</p>
+<p><b>Exiled</b> cards go on each player\'s Exile mat. You can discard all matching copies on yours when you gain a card.</p>
+<p><b>Exchanging</b> cards gets you a card in place of another one, which is returned to the Supply.</p>
+<p>Some things cost <b>Debt</b>. Debt costs are paid by taking Debt tokens; those prevent you from buying until they\'re paid off.</p>
+<p><b>Boons</b> are random small good effects from a shuffled deck of 12. <b>Hexes</b> are bad effects in the same way.</li></p>
+<h3>Additional Supply Cards</h3>
+<p><b>Colony</b> and <b>Platinum</b> cards are added to the Supply at times generally in proportion to the number of Prosperity Kingdom card piles used. They are more expensive basic Victory and Treasure cards. <i>(From Prosperity)</i></p>
+<p><b>Potion</b> cards are added to the Supply when a card with a potion in its cost is used. They are Treasures that provide potions needed to buy those cards (often in addition to $*). <i>(From Alchemy)</i></p>
+<p><b>Ruins</b> are added to the Supply when a Looter card is in the game. Each is one of 5 generally bad cards, similar to Curses. <i>(From Dark Ages)</i></p>
+<h3>Alternate Starting Cards</h3>
+<p><b>Shelters</b> replace starting Estates when desired, generally in proportion to the number of Dark Ages Kingdom card piles used. <i>(From Dark Ages)</i></p>
+<p><b>Heirlooms</b> each replace a starting Copper whenever its corresponding Kingdom card is used. <i>(From Nocturne)</i></p>
+<h3>More Information</h3>
+	]]>
+    </string>
+	
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="achievements_2players8provinces">Avoir les 8 Provinces à la fin d\'une partie à 2 joueurs</string>
+    <string name="achievements_3or4players10provinces">Avoir 10 Provinces ou plus à la fin d\'une partie à 3 ou 4 joueurs</string>
+    <string name="achievements_score100">Gagner une partie avec 100 PV ou plus</string>
+    <string name="achievements_score100withoutProsperity">Gagner une partie avec 100 PVs ou plus sans cartes Prospérité</string>
+    <string name="achievements_score500">Gagner une partie avec 500 PVs ou plus</string>
+    <string name="achievements_score1more">Gagner une partie avec 1 PV de différence</string>
+    <string name="achievements_singlecard">Gagner une partie en n\'achetant qu\'une seule carte Royaume</string>
+    <string name="achievements_score50more">Gagner une partie avec une différence de plus de 50 PVs</string>
+    <string name="achievements_skunk">Gagner une partie avec l\'un des adversaires ayant 0 PV ou moins</string>
+    <string name="achievements_trash5inaturn">Ecarter plus de 5 cartes en un seul tour</string>
+    <string name="achievements_gainmorethan30inaturn">Gagner plus de 30 PVs en un seul tour</string>
+    <string name="achievements_win10inarow">Gagner 10 parties de suite</string>
+    <string name="achievements_overpayby10ormore">Surpayer une carte de 10 jetons Pièce ou plus</string>
+    <string name="achievements_stockpile50tokens">Emmagasiner 50 jetons Pièce ou plus</string>
+    <string name="achievements_2tacticians">Jouer deux Tacticiens dans le même tour, en défausant au moins une carte à chaque fois</string>
+    <string name="achievements_13curses">Gagner une partie avec exactement 13 Malédictions dans votre deck</string>
+    <string name="achievements_allEmpty">Gagner une partie en ne laissant aucune carte dans chacune des piles de la réserve</string>
+    
+    <string name="currentWinStreak">Victoires consécutives: </string>
+
+</resources>
