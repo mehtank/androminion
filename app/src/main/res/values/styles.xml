@@ -9,6 +9,7 @@
         <item name="player5TextBackgroundColor">@color/player5LineColor</item>
         <item name="player6TextBackgroundColor">@color/player6LineColor</item>
         <item name="stashTextColor">@color/stashTextLight</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
     </style>
 
     <style name="Theme.Androminion.Light.DarkActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -19,6 +20,7 @@
         <item name="player5TextBackgroundColor">@color/player5Color</item>
         <item name="player6TextBackgroundColor">@color/player6Color</item>
         <item name="stashTextColor">@color/stashTextDark</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
     </style>
 
     <style name="Theme.Androminion.Light" parent="Theme.AppCompat.Light">
@@ -29,6 +31,7 @@
         <item name="player5TextBackgroundColor">@color/player5Color</item>
         <item name="player6TextBackgroundColor">@color/player6Color</item>
         <item name="stashTextColor">@color/stashTextDark</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
     </style>
 
     <style name="Theme.Androminion.NoActionBar" parent="Theme.AppCompat.NoActionBar">
@@ -39,6 +42,7 @@
         <item name="player5TextBackgroundColor">@color/player5LineColor</item>
         <item name="player6TextBackgroundColor">@color/player6LineColor</item>
         <item name="stashTextColor">@color/stashTextLight</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
     </style>
 
     <style name="Theme.Androminion.Light.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -49,6 +53,7 @@
         <item name="player5TextBackgroundColor">@color/player5Color</item>
         <item name="player6TextBackgroundColor">@color/player6Color</item>
         <item name="stashTextColor">@color/stashTextDark</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
     </style>
 
 </resources>
