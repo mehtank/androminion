@@ -1297,12 +1297,14 @@ public class Game {
             		durationEffectsAreCards.add(false);
             	}
             } else if (thisCard.equals(Cards.church)) {
-            	if(player.church.size() > 0) {
-            		durationEffects.add(cardOrEffect);
-            		durationEffects.add(player.church.remove(0));
-            		durationEffectsAreCards.add(effectHasCard);
-            		durationEffectsAreCards.add(false);
-            	}
+                if (player.church.size() > 0) {
+                    durationEffects.add(cardOrEffect);
+                    durationEffects.add(player.church.remove(0));
+                    durationEffectsAreCards.add(effectHasCard);
+                    durationEffectsAreCards.add(false);
+                }
+            } else if (thisCard.equals(Cards.prince)) {
+                //handled below
             } else {
             	durationEffects.add(cardOrEffect);
             	durationEffects.add(Cards.curse); /*dummy*/
@@ -1525,7 +1527,6 @@ public class Game {
             durationEffectsAreCards.remove(selection);
             
             if(card.equals(Cards.prince)) {
-                player.prince.remove(card2);
                 card2.play(this, context, false, true, false);
             } else if(card.equals(Cards.summon)) {
                 player.summon.remove(card2);
