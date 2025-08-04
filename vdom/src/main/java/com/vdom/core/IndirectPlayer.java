@@ -1123,7 +1123,8 @@ public abstract class IndirectPlayer extends QuickPlayPlayer {
             return super.prince_cardToSetAside(context);
         }
         SelectCardOptions sco = new SelectCardOptions().isAction().maxCost(4).maxDebtCost(0).maxPotionCost(0)
-                .setCardResponsible(Cards.prince);
+                .setCardResponsible(Cards.prince)
+                .setPassable();
         return getCardFromHand(context, sco);
     }
 

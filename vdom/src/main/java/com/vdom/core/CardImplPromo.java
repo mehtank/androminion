@@ -377,16 +377,18 @@ public class CardImplPromo extends CardImpl {
         			possibleCards.add(c);
         		}
         	}
-        	if (possibleCards.size() == 0) return;
-        	Card card = possibleCards.get(0);
-        	if (possibleCards.size() > 1) {
-        		card = currentPlayer.controlPlayer.prince_cardToSetAside(context);
-                if (card == null || !currentPlayer.hand.contains(card) || !card.is(Type.Action, currentPlayer) || card.is(Type.Duration, currentPlayer) || card.getCost(context) > 4 || card.getDebtCost(context) != 0 || card.costPotion()) {
-                    Util.playerError(currentPlayer, "Prince set aside card error, setting aside first card.");
-                    card = possibleCards.get(0);
-                }
-        	}
-        	
+        	if (possibleCards.isEmpty())
+                return;
+
+            Card card = currentPlayer.controlPlayer.prince_cardToSetAside(context);
+            if (card == null)
+                return;
+
+            if (!currentPlayer.hand.contains(card) || !card.is(Type.Action, currentPlayer) || card.is(Type.Duration, currentPlayer) || card.getCost(context) > 4 || card.getDebtCost(context) != 0 || card.costPotion()) {
+                Util.playerError(currentPlayer, "Prince set aside card error, setting aside first card.");
+                card = possibleCards.get(0);
+            }
+
         	currentPlayer.hand.remove(card);
             currentPlayer.prince.add(card);
 
