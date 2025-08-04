@@ -3,16 +3,20 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    namespace 'com.mehtank.androminion'
+    compileSdkVersion 36
+
+    String versionNameEnv = System.getenv("VERSION_NAME") ?: "develop"
+    Integer versionCodeEnv = Integer.parseInt(new Date().format('yyMMdd'))
 
     defaultConfig {
         applicationId "com.mehtank.androminion"
         minSdk 21
-        targetSdk 32
-        versionCode 1000
-        versionName "10.0"
-        setProperty("archivesBaseName", "Androminion_${versionName}")
+        targetSdk 36
+        versionCode versionCodeEnv
+        versionName versionNameEnv
     }
+
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
@@ -35,20 +39,20 @@ android {
         }
         applicationVariants.all { variant ->
             variant.outputs.each { output->
-                output.outputFileName = "Androminion_v${variant.versionName}.apk"
+                output.outputFileName = "Androminion_${variant.versionName}.apk"
             }
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
 dependencies {
     implementation project(path: ':vdom')
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'androidx.preference:preference:1.1.1'
-    implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.preference:preference:1.2.1'
+    implementation 'androidx.viewpager2:viewpager2:1.1.0'
+    implementation 'com.google.android.material:material:1.12.0'
 }
