@@ -529,10 +529,9 @@ public class CardImpl implements Card, Comparable<Card>{
         if (player == null || (!player.hasProject(Cards.capitalism) && (player.getInheritance() == null || !this.equals(Cards.estate)))) {
             return types;
         }
-        Set<Type> typeSet = new HashSet<Type>();
-        typeSet.addAll(Arrays.asList(types));
+        Set<Type> typeSet = new HashSet<>(Arrays.asList(types));
         boolean isPlayersTurn = player.game.getCurrentPlayer() == player;
-        if (this.equals(Cards.estate) && isPlayersTurn) {
+        if (player.getInheritance() != null && this.equals(Cards.estate) && isPlayersTurn) {
         	typeSet.add(Type.Action);
         }
         if (player.hasProject(Cards.capitalism) && this.hasPlusCoin() && typeSet.contains(Type.Action) && isPlayersTurn) {
@@ -554,7 +553,8 @@ public class CardImpl implements Card, Comparable<Card>{
     }
 
     public int getCost(MoveContext context, boolean buyPhase) {
-    	if (this.is(Type.Event) || this.is(Type.Project)) return cost; //Costs of Events/Projects are not affected by cards like Bridge Troll.
+    	if (this.is(Type.Event) || this.is(Type.Project))
+            return cost; //Costs of Events/Projects are not affected by cards like Bridge Troll.
 
         //If it's a variable card pile, and it's not empty, return the cost of the top card
         if (this.isPlaceholderCard()) {
