@@ -732,7 +732,7 @@ public class Strings {
     public static String[] getOptions(Card card, Object[] options) {
         int startIndex = getOptionStartIndex(card, options);
         String[] strings = new String[options.length - startIndex];
-                
+
         if (card != null && getCardName(card).equals(getCardName(Cards.hermit)) && !(options[0] instanceof String)) {
             strings = new String[options.length - 1];
             strings[0] = getString(R.string.none);
@@ -747,7 +747,7 @@ public class Strings {
             return strings;
         }
 
-        if (card != null && getCardName(card).equals(getCardName(Cards.prince)) && !(options.length > 0 && options[0] instanceof String && options[0].equals(IndirectPlayer.OPTION_CALL_RESOLVE_ACTION))) {
+        if (card != null && getCardName(card).equals(getCardName(Cards.prince)) && !(options[0] instanceof String && (options[0].equals(IndirectPlayer.OPTION_CALL_RESOLVE_ACTION) || options[0].equals(IndirectPlayer.OPTION_WAY)))) {
             String[] strings2 = new String[(options.length - startIndex)/2];
             for (int i = startIndex; i < options.length-1; i=i+2) {
                 if (options[i] != null && options[i+1] != null) {
@@ -826,7 +826,7 @@ public class Strings {
         	return strings;
         }
 
-        if (card != null && card.equals(Cards.secretPassage) && !(options.length > 0 && options[0] instanceof String && options[0].equals(IndirectPlayer.OPTION_CALL_RESOLVE_ACTION))) {
+        if (card != null && card.equals(Cards.secretPassage) && !(options[0] instanceof String && options[0].equals(IndirectPlayer.OPTION_CALL_RESOLVE_ACTION) || options[0].equals(IndirectPlayer.OPTION_WAY))) {
             if (strings.length > 0) strings[0] = getString(R.string.stash_on_top);
             for (int i = 1; i < strings.length - 1; ++i) {
                 strings[i] = format(i == 1 ? R.string.stash_1_card_down : R.string.stash_x_cards_down, i);
@@ -842,23 +842,15 @@ public class Strings {
             }
         	return strings;
         }
-        
-        if (card != null && getCardName(card).equals(getCardName(Cards.mountainPass))) {
-        	strings[0] = getString(R.string.pass);
-        	for (int i = startIndex + 1; i < options.length; i++) {
-                strings[i - startIndex] = options[i] + "";
-            }
-        	return strings;
-        }
-        
+
         if (options[0] instanceof String && IndirectPlayer.OPTION_WAY.equals(options[0])) {
-        	strings[0] = getString(R.string.way_play_normally_option);
-        	for (int i = startIndex + 1; i < options.length; i++) {
-        		strings[i - startIndex] = Strings.getOptionText(options[i], options);
+            strings[0] = getString(R.string.way_play_normally_option);
+            for (int i = startIndex + 1; i < options.length; i++) {
+                strings[i - startIndex] = Strings.getOptionText(options[i], options);
             }
-        	return strings;
+            return strings;
         }
-        
+
         for (int i = startIndex; i < options.length; i++) {
             strings[i - startIndex] = Strings.getOptionText(options[i], options);
         }
