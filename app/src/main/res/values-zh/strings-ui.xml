@@ -39,7 +39,10 @@
     <string name="whatsnew_menu">更新资讯</string>
     <string name="whatsnew_title">What\'s new：</string>
     <string name="whatsnew">
-<![CDATA[<h3>请仔细阅读！</h3>由版权方要求，我们在一个不存在的应用商店移除了~Androminion~。请！不要！把这个程序在任何其它公开的应用商店发布，因为今后将会有一个官方的Dominion程序。<br><br> <h3>版本9.03</h3> * Renaissance Previews! <br><h3>版本 8.10</h3> * 午夜狂曲！<br> * 推广卡片：拆除<h3>版本 7.06</h3> * 帝国崛起！<br> * 皇輿争霸和暗潮汹涌第二版！<br> * 推广卡片：桑拿&冬泳<h3>版本 6.07</h3> * 冒险时刻！<br> * 推广卡片：藏匿，召唤<h3>版本 6.00</h3> * 冒险时刻（测试版）！<h3>版本 5.01</h3> * 推广卡片：黑市！<br> * 推广卡片：王子！<br> * 更多语言加入<br> * 成堆的Bug修复与其他修改<h3>版本 5.00</h3> * 同业公会！<br> * 更多语言加入<br> * Bug修复<br> <h3>版本 4.02</h3> * 神奇海盗团实现<br> * 许多Bug修复<h3>版本 4.00</h3> * 黑暗时代！*更早的更新懒得翻译了，请有兴趣的读者改成英文版看吧:)<font color="lime">~Androminion~现已开源！</font>这些更新如果没有许多成员的帮助将不可能实现，请移步致谢查看他（她）们的名字。你也可以加入！前往Github页面来提交Bug，请求，翻译或是任何其它你感兴趣的想法：<br/><a href="https://github.com/mehtank/androminion">https://github.com/mehtank/androminion</a><br/><br/>]]>
+    <![CDATA[<h3>请仔细阅读！</h3>由版权方要求，我们在一个不存在的应用商店移除了~Androminion~。请！不要！把这个程序在任何其它公开的应用商店发布，因为今后将会有一个官方的Dominion程序。<br><br>
+    	<h3>Version 10.0</h3>
+		* Menagerie Expansion! <br>
+        <h3>版本9.03</h3> * Renaissance Previews! <br><h3>版本 8.10</h3> * 午夜狂曲！<br> * 推广卡片：拆除<h3>版本 7.06</h3> * 帝国崛起！<br> * 皇輿争霸和暗潮汹涌第二版！<br> * 推广卡片：桑拿&冬泳<h3>版本 6.07</h3> * 冒险时刻！<br> * 推广卡片：藏匿，召唤<h3>版本 6.00</h3> * 冒险时刻（测试版）！<h3>版本 5.01</h3> * 推广卡片：黑市！<br> * 推广卡片：王子！<br> * 更多语言加入<br> * 成堆的Bug修复与其他修改<h3>版本 5.00</h3> * 同业公会！<br> * 更多语言加入<br> * Bug修复<br> <h3>版本 4.02</h3> * 神奇海盗团实现<br> * 许多Bug修复<h3>版本 4.00</h3> * 黑暗时代！*更早的更新懒得翻译了，请有兴趣的读者改成英文版看吧:)<font color="lime">~Androminion~现已开源！</font>这些更新如果没有许多成员的帮助将不可能实现，请移步致谢查看他（她）们的名字。你也可以加入！前往Github页面来提交Bug，请求，翻译或是任何其它你感兴趣的想法：<br/><a href="https://github.com/mehtank/androminion">https://github.com/mehtank/androminion</a><br/><br/>]]>
     </string>
     <string name="contrib_menu">致谢</string>
     <string name="contrib_title">贡献者：</string>
